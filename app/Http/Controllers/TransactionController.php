@@ -46,7 +46,7 @@ class TransactionController extends Controller
       'customers.name as cust_name',
       'customers.phone as cust_phone'
       ])
-    ->orderBy('transactions.date_deliver', 'desc');
+    ->orderBy('transactions.date_order', 'desc');
 
     return Datatables::of($transactions)
     ->editColumn('cust_name', function ($transaction) {
@@ -96,6 +96,14 @@ class TransactionController extends Controller
   public function store_detail(Request $request)
   {
     $this->validation_detail_rules($request);
+
+    $qty = $request->input('qty');
+    $harga = $request->input('harga');
+    $transaction_id = $request->input('transaction_id');
+
+
+    $trans=Transaction::find($transaction_id);
+    $trans->update(array('amount_left'=>(($qty*$harga)+$trans->amount_left)));
 
     $trans_detail=$request->input();
     $save_trans_detail = TransactionDetail::create($trans_detail);
@@ -349,8 +357,29 @@ class TransactionController extends Controller
   {
       $transDetail = TransactionDetail::findOrFail($id);
 
-      $transDetail->delete();
 
+      $trans_id = $transDetail->transaction_id;
+      $trans_pack_type = $transDetail->package_type;
+      $trans_pack_qty = $transDetail->qty;
+      $trans_pack_id = $transDetail->package_id;
+
+      $pack = Package::find($trans_pack_id);
+      $hasil = 0;
+
+      if ($trans_pack_type == 1) {
+        $price = $pack->price_regular;
+        $hasil = $price * $trans_pack_qty;
+      }
+      else
+      {
+        $price = $pack->price_express;
+        $hasil = $price * $trans_pack_qty;
+      }
+
+      $trans=Transaction::find($trans_id);
+      $trans->update(array('amount_left'=>($trans->amount_left - $hasil)));
+
+      $transDetail->delete();
       Session::flash('flash_message', 'Data berhasil dihapus');
 
       return Redirect::to(URL::previous() . "#detail-item");

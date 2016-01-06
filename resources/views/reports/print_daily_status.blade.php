@@ -1,4 +1,4 @@
-<title>Laporan Status Trsansaksi Harian</title>
+<title>Laporan Status Trsansaksi</title>
 
 <span style="font-size:15px; font-weight:bold;">Glory Laundry</span><br/>
 <address>
@@ -7,13 +7,15 @@ Apartement Jarrdin Cihampelas<br>
 022-91323820, 0857 9444 0447
 </address>
 <div style="text-align:center;">
-<span style="font-size:15px; font-weight:bold;">Laporan Status Transaksi Harian</span><br/>
-<span style="font-size:12px;">Periode: {{$date_start}} - {{$date_end}}</span><br/>
+<span style="font-size:15px; font-weight:bold;">Laporan Status Transaksi</span><br/>
+<span style="font-size:12px;">Periode Order: {{$date_start}} - {{$date_end}}</span><br/>
 <br/>
 </div>
 <table style="font-size:12px; border: 1px solid gray; text-align:center;" width="100%">
   <thead><?php
   $total_sudah_bayar = 0;
+  $total_sisa_bayar = 0;
+
   $total_pcs = 0;
   $total_kg = 0;
   $total_mtr = 0;
@@ -40,11 +42,12 @@ Apartement Jarrdin Cihampelas<br>
         <td>{{ ($data->jml_kg == '') ? '0':$data->jml_kg }}</td>
         <td>{{ ($data->jml_mtr == '') ? '0':$data->jml_mtr }}</td>
         <td>{{ ($data->jml_pcs == '') ? '0':$data->jml_pcs }}</td>
-        <td>{{ number_format( $data->sudah_bayar, 2, ',', '.') }}</td>
-        <td>{{ number_format( $data->sudah_bayar, 2, ',', '.') }}</td>
+        <td align="right">{{ number_format( $data->sudah_bayar, 2, ',', '.') }}</td>
+        <td align="right">{{ number_format( ($data->trans_amount_total - $data->sudah_bayar), 2, ',', '.') }}</td>
       </tr>
       <?php
       $total_sudah_bayar += $data->sudah_bayar;
+      $total_sisa_bayar += $data->trans_amount_total - $data->sudah_bayar;
       $total_kg += $data->jml_kg;
       $total_mtr += $data->jml_mtr;
       $total_pcs += $data->jml_pcs;
@@ -60,8 +63,8 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{$total_kg}}</td>
       <td>{{$total_mtr}}</td>
       <td>{{$total_pcs}}</td>
-      <td>{{ number_format( $total_sudah_bayar, 2, ',', '.') }}</td>
-      <td>{{ number_format( $total_sudah_bayar, 2, ',', '.') }}</td>
+      <td align="right">{{ number_format( $total_sudah_bayar, 2, ',', '.') }}</td>
+      <td align="right">{{ number_format( $total_sisa_bayar, 2, ',', '.') }}</td>
     </tr>
   </tbody>
 </table>

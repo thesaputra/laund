@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Laundry</a>
+            <a class="navbar-brand" href="#" style="color:green;">GloryLaundry</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
@@ -40,8 +40,8 @@
                   @if (Auth::user()->role_id != 2)
                     <li><a href="{!! route('admin.report.index') !!}"><i class="fa fa-book"></i>Gaji Karyawan</a></li>
                   @endif
-                  <li><a href="{!! route('admin.report.daily') !!}"><i class="fa fa-book"></i>Transaksi Uang Masuk Harian</a></li>
-                    <li><a href="{!! route('admin.report.status') !!}"><i class="fa fa-book"></i>Status Transaksi Harian</a></li>
+                  <li><a href="{!! route('admin.report.daily') !!}"><i class="fa fa-book"></i>Transaksi Uang Masuk Periode</a></li>
+                    <li><a href="{!! route('admin.report.status') !!}"><i class="fa fa-book"></i>Status Transaksi Periode</a></li>
                 </ul>
               </li>
 
