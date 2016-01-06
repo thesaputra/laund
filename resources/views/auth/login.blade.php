@@ -42,7 +42,7 @@
               <div class="form-group">
                 <div class="col-md-12 control">
                   <div style="border-top: 0.5px solid#888; padding-top:20px; text-align:center; font-size:75%" >
-                    &copy 2015 - Laundry Management Application
+                    &copy 2015 - Glory Laundry
                   </div>
                 </div>
               </div>
