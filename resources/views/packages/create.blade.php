@@ -30,7 +30,8 @@
             {!! Form::select('unit', [
     				'Kg' => 'Kg',
     				'Mtr' => 'Mtr',
-            'Pcs' => 'Pcs'],
+            'Pcs' => 'Pcs',
+            'Hari' => 'Hari'],
              null, ['class'=>'form-control']
     				) !!}
         </div>
