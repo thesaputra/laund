@@ -111,7 +111,7 @@ class ReportController extends Controller
 
   public function get_data_report_status($date_start,$date_end)
   {
-    $date_end = Carbon::parse($date_end)->addDays(1);
+    // $date_end = Carbon::parse($date_end)->addDays(1);
     $results = \DB::select(\DB::raw("select transactions.date_order as trans_date_order, transactions.invoice_number as trans_invoice, customers.name as cust_name,customers.address as cust_address,
                                transaction_details.package_type as trans_detail_type, transactions.id as trans_id, transactions.amount_left as trans_amount_total,
                               (SELECT
