@@ -83,11 +83,13 @@ class ReportController extends Controller
     ->join('users','transaction_users.user_id','=','users.id')
     ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order',
              'transaction_users.qty','transaction_users.end_date','transaction_users.status',
-             'packages.name as package_name','packages.price_opr','packages.unit','users.name as user_name')
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
+    ->where('packages.unit','!=','Pcs')
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
+
 
     return $results;
   }

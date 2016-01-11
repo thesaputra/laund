@@ -40,13 +40,12 @@
           {!! Form::select('unit', [
           'Kg' => 'Kg',
           'Mtr' => 'Mtr',
-          'Pcs' => 'Pcs',
           'Hari' => 'Hari'],
            null, ['class'=>'form-control']
           ) !!}
           {!! Form::select('status', [
           'Proses' => 'Proses',
-          'Done' => 'Done'],
+          'Selesai' => 'Selesai'],
            null, ['class'=>'form-control']
           ) !!}
           <br/>
