@@ -343,6 +343,12 @@ Route::group(array('prefix' => 'admin'),function() {
        'uses' => 'TransactionController@store_user',
        'roles' => ['Admin', 'Owner']
    ]);
+   Route::post('transaction/store_pcs', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.store_pcs',
+       'uses' => 'TransactionController@store_pcs',
+       'roles' => ['Admin', 'Owner']
+   ]);
    Route::post('transaction/store_payment', [
        'middleware' => ['auth', 'roles'],
        'as' => 'kasir.transaction.store_payment',
@@ -367,6 +373,14 @@ Route::group(array('prefix' => 'admin'),function() {
        'uses' => 'TransactionController@destroy_detail_user',
        'roles' => ['Admin', 'Owner']
    ]);
+
+   Route::delete('transaction/destroy_detail_user_pcs/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.destroy_detail_user_pcs',
+       'uses' => 'TransactionController@destroy_detail_user_pcs',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
    Route::delete('transaction/destroy_detail_item/{id}', [
        'middleware' => ['auth', 'roles'],
        'as' => 'kasir.transaction.destroy_detail_item',
@@ -401,6 +415,13 @@ Route::group(array('prefix' => 'admin'),function() {
        'roles' => ['Admin', 'Owner']
    ]);
 
+   Route::patch('transaction/update_status_pcs/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.update_status_pcs',
+       'uses' => 'TransactionController@update_status_pcs',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
    Route::get('package/edit/{id}', [
        'middleware' => ['auth', 'roles'],
        'as' => 'admin.transaction.edit',
@@ -423,6 +444,12 @@ Route::group(array('prefix' => 'admin'),function() {
        'middleware' => ['auth', 'roles'],
        'as' => 'kasir.transaction.package_autocomplete',
        'uses' => 'TransactionController@package_autocomplete',
+       'roles' => ['Admin', 'Owner']
+   ]);
+   Route::get('transaction/package_autocomplete_pcs', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.package_autocomplete_pcs',
+       'uses' => 'TransactionController@package_autocomplete_pcs',
        'roles' => ['Admin', 'Owner']
    ]);
    Route::get('transaction/item_autocomplete', [

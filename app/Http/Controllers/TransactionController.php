@@ -14,6 +14,7 @@ use App\User;
 use App\Models\TransactionDetail;
 use App\Models\TransactionItem;
 use App\Models\TransactionUser;
+use App\Models\TransactionPcs;
 use App\Models\PaymentHistory;
 use App\Models\Customer;
 use App\Models\Status;
@@ -132,7 +133,56 @@ class TransactionController extends Controller
     $trans_user=$request->input();
     $save_trans_user = TransactionUser::create($trans_user);
 
-    return redirect()->route('kasir.transaction.detail_user', $request->input('transaction_id'));
+    // return redirect()->route('kasir.transaction.detail_user', $request->input('transaction_id'));
+      return Redirect::to(URL::previous() . "#tab1default");
+  }
+
+  public function store_pcs(Request $request)
+  {
+    $this->validation_user_rules($request);
+    $start_date = $this->saved_date_time_format($request->input('start_date'));
+    $end_date = $this->saved_date_time_format($request->input('end_date'));
+
+    $pack_type = $request->input('package_type');
+    $qty = $request->input('qty');
+    $price_reg = $request->input('price_reg');
+    $price_exp =  $request->input('price_exp');
+    $pack_detail = $request->input('package_detail');
+
+    $price = 0;
+    if ($pack_type == 1) {
+      if ($pack_detail == 'Tag') {
+        $price = ((0.01 * $price_reg) * $qty);
+      } elseif ($pack_detail == 'Cuci') {
+        $price = ((0.05 * $price_reg) * $qty);
+      } elseif ($pack_detail == 'Setrika') {
+        $price = ((0.05 * $price_reg) * $qty);
+      } elseif ($pack_detail == 'Qc') {
+        $price = ((0.02 * $price_reg) * $qty);
+      } elseif ($pack_detail == 'Packing') {
+        $price = ((0.02 * $price_reg) * $qty);
+      }
+    } else {
+      if ($pack_detail == 'Tag') {
+        $price = ((0.01 * $price_exp) * $qty);
+      } elseif ($pack_detail == 'Cuci') {
+        $price = ((0.05 * $price_exp) * $qty);
+      } elseif ($pack_detail == 'Setrika') {
+        $price = ((0.05 * $price_exp) * $qty);
+      } elseif ($pack_detail == 'Qc') {
+        $price = ((0.02 * $price_exp) * $qty);
+      } elseif ($pack_detail == 'Packing') {
+        $price = ((0.02 * $price_exp) * $qty);
+      }
+    }
+
+    $request->merge(array('start_date' => $start_date,'end_date'=>$end_date,'price'=>$price));
+
+    $trans_user=$request->input();
+    $save_trans_user = TransactionPcs::create($trans_user);
+
+    // return redirect()->route('kasir.transaction.detail_user', $request->input('transaction_id'));
+    return Redirect::to(URL::previous() . "#tab2default");
   }
 
   public function store_payment(Request $request)
@@ -205,10 +255,18 @@ class TransactionController extends Controller
     ->select('transaction_users.*','transaction_users.id as trans_user_id','users.*','packages.name as package_name')
     ->paginate(25);
 
+    $list_pcs = TransactionPcs::where('transaction_pcs.transaction_id','=', $id)
+    ->join('users','transaction_pcs.user_id','=','users.id')
+    ->join('packages','transaction_pcs.package_id','=','packages.id')
+    ->select('transaction_pcs.*','transaction_pcs.id as trans_user_id','users.*','packages.name as package_name')
+    ->paginate(25);
+
 
     $data_transaction = array(
       'transaction'  => $transaction,
-      'user_transaction' => $list_user
+      'user_transaction' => $list_user,
+      'pcs_transaction' => $list_pcs
+
     );
 
     return view('transactions.detail_user',compact('data_transaction'));
@@ -259,6 +317,25 @@ class TransactionController extends Controller
     $queries = \DB::table('packages')
     ->where('name', 'LIKE', '%'.$term.'%')
     ->where('unit','!=','Pcs')
+    ->take(10)->get();
+
+    foreach ($queries as $query)
+    {
+      $results[] = [ 'id' => $query->id, 'name' => $query->name, 'price_regular' => $query->price_regular, 'price_express' => $query->price_express, 'unit' => $query->unit ];
+    }
+
+    return response()->json($results);
+  }
+
+  public function package_autocomplete_pcs(Request $request)
+  {
+    $term = $request->term;
+
+    $results = array();
+
+    $queries = \DB::table('packages')
+    ->where('name', 'LIKE', '%'.$term.'%')
+    ->where('unit','=','Pcs')
     ->take(10)->get();
 
     foreach ($queries as $query)
@@ -340,7 +417,27 @@ class TransactionController extends Controller
 
     Session::flash('flash_message', 'OK');
 
-      return redirect()->back();
+    return Redirect::to(URL::previous() . "#tab1default");
+  }
+
+  public function update_status_pcs(Request $request, $id)
+  {
+    if ($request->input('status') == 'Proses'){
+      $request->merge(array('status'=>'Selesai'));
+    } else {
+      $request->merge(array('status'=>'Proses'));
+    }
+
+    $transUser=$request->input();
+
+    $trans = TransactionPcs::findOrFail($id);
+
+    $trans->update($transUser);
+
+    Session::flash('flash_message', 'OK');
+
+    return Redirect::to(URL::previous() . "#tab2default");
+
   }
 
   public function destroy_history_payment($id)
@@ -394,7 +491,18 @@ class TransactionController extends Controller
 
       Session::flash('flash_message', 'Data berhasil dihapus');
 
-        return redirect()->back();
+      return Redirect::to(URL::previous() . "#tab1default");
+  }
+
+  public function destroy_detail_user_pcs($id)
+  {
+      $transDetail = TransactionPcs::findOrFail($id);
+
+      $transDetail->delete();
+
+      Session::flash('flash_message', 'Data berhasil dihapus');
+
+    return Redirect::to(URL::previous() . "#tab2default");
   }
 
   public function destroy_detail_item($id)

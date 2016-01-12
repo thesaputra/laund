@@ -8,13 +8,13 @@
     </h2>
     {!! Form::open(['route' => 'admin.report.process']) !!}
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group">
           {!! Form::label('date_start', 'Mulai:') !!}
           {!! Form::text('date_start',null,['id'=>'date-start','class'=>'form-control','required'=>'true']) !!}
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group">
           {!! Form::label('date_end', 'Akhir:') !!}
           {!! Form::text('date_end',null,['id'=>'date-end','class'=>'form-control','required'=>'true']) !!}
@@ -26,6 +26,18 @@
           {!! Form::select('user_id', $user, null, ['class' => 'form-control']) !!}
         </div>
       </div>
+      <div class="col-md-2">
+        <div class="form-group">
+            {!! Form::label('status', 'Tipe:') !!}
+          {!! Form::select('status', [
+          'Non Pcs' => 'Non Pcs',
+          'Pcs' => 'Pcs'],
+          null, ['class'=>'form-control']
+          ) !!}
+        </div>
+      </div>
+
+
       <div class="col-md-3">
         <div class="form-group">
           <label>&nbsp;</label>
