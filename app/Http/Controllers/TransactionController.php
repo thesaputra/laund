@@ -395,7 +395,7 @@ class TransactionController extends Controller
 
     $trans->update($transUpdate);
 
-    Session::flash('flash_message', 'OK!');
+    Session::flash('flash_message', 'Data berhasil diubah!');
 
     return redirect()->back();
   }
@@ -415,7 +415,7 @@ class TransactionController extends Controller
 
     $trans->update($transUser);
 
-    Session::flash('flash_message', 'OK');
+    Session::flash('flash_message', 'Status berhasil diubah');
 
     return Redirect::to(URL::previous() . "#tab1default");
   }
@@ -434,7 +434,7 @@ class TransactionController extends Controller
 
     $trans->update($transUser);
 
-    Session::flash('flash_message', 'OK');
+    Session::flash('flash_message', 'Status berhasil diubah');
 
     return Redirect::to(URL::previous() . "#tab2default");
 

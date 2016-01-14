@@ -4,7 +4,7 @@
 <div class="row" id="top">
   <h3 class="page-header">Detail Transaksi <small>Petugas Layanan</small></h3>
   <div class="col-md-12">
-    <div class="panel with-nav-tabs panel-default">
+    <div class="panel with-nav-tabs panel-info">
       <div class="panel-heading">
         <ul class="nav nav-tabs">
           <li class="tab1"><a href="#tab1default" data-toggle="tab" id="tab1defaultH">Standard</a></li>

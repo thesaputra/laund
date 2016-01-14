@@ -255,7 +255,7 @@
                 <a href="{{route('kasir.transaction')}}" class="btn btn-info"/>Back</a>
               </div>
               <div class="col-md-4">
-                <a class="btn btn-warning" href="{{ Route('kasir.transaction.detail_user',$data_transaction['transaction']->id) }}" role="button">+ Petugas Layanan</a>
+                <a class="btn btn-warning" href="{{ Route('kasir.transaction.detail_user',$data_transaction['transaction']->id.'#tab1default') }}" role="button">+ Petugas Layanan</a>
               </div>
               <div class="col-md-4">
                 <a class="btn btn-success" href="{{ Route('kasir.transaction.detail_item',$data_transaction['transaction']->id) }}" role="button">+ Rincian Pakaian</a>

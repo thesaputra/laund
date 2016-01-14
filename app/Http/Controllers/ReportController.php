@@ -61,13 +61,25 @@ class ReportController extends Controller
     $date_end = $this->saved_date_format($request->input('date_end'));
     $user_id = $request->input('user_id');
 
+    $tipe = $request->input('tipe');
+
     $user_name = User::find($user_id)->name;
 
-    $data = $this->get_data_report($date_start,$date_end,$user_id);
-    $date_start = $request->input('date_start');
-    $date_end = $request->input('date_end');
+    if ($tipe != 'Pcs') {
+      $data = $this->get_data_report($date_start,$date_end,$user_id);
+      $date_start = $request->input('date_start');
+      $date_end = $request->input('date_end');
 
-    $view =  \View::make('reports.print_sallary_report', compact('data','date_start','date_end','user_name'))->render();
+      $view =  \View::make('reports.print_sallary_report', compact('data','date_start','date_end','user_name'))->render();
+    } else {
+      $data = $this->get_data_report_pcs($date_start,$date_end,$user_id);
+      $date_start = $request->input('date_start');
+      $date_end = $request->input('date_end');
+
+      $view =  \View::make('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'))->render();
+    }
+
+
     $pdf = \App::make('dompdf.wrapper');
     $pdf->loadHTML($view);
     return $pdf->stream('invoice');
@@ -90,6 +102,25 @@ class ReportController extends Controller
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
 
+
+    return $results;
+  }
+
+  public function get_data_report_pcs($date_start,$date_end,$user_id)
+  {
+    $date_end = Carbon::parse($date_end)->addDays(1);
+    $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
+    ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
+    ->join('packages','transaction_pcs.package_id','=','packages.id')
+    ->join('status','transactions.status_id','=','status.id')
+    ->join('users','transaction_pcs.user_id','=','users.id')
+    ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order',
+             'transaction_pcs.qty','transaction_pcs.end_date','transaction_pcs.status','transaction_pcs.price','transaction_pcs.package_detail',
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+    ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
+    ->where('transaction_pcs.status','=','Selesai')
+    ->where('transaction_pcs.user_id','=',$user_id)
+    ->get();
 
     return $results;
   }

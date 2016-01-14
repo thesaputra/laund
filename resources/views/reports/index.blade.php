@@ -28,8 +28,8 @@
       </div>
       <div class="col-md-2">
         <div class="form-group">
-            {!! Form::label('status', 'Tipe:') !!}
-          {!! Form::select('status', [
+            {!! Form::label('tipe', 'Tipe:') !!}
+          {!! Form::select('tipe', [
           'Non Pcs' => 'Non Pcs',
           'Pcs' => 'Pcs'],
           null, ['class'=>'form-control']
