@@ -38,7 +38,7 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{ $data->qty }} {{ $data->unit }}</td>
       <td>{{ number_format( $data->price, 2, ',', '.') }}</td>
     </tr>
-    <?php $subtotal += $data->price * $data->qty;
+    <?php $subtotal += $data->price;
         $qtys += $data->qty;
     ?>
     @endforeach
