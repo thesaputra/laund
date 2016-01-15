@@ -156,11 +156,11 @@
                       {!! Form::hidden('price_exp',null,['id'=>'price_exp_pcs', 'class'=>'form-control','placeholder'=>'Price']) !!}
 
                       {!! Form::select('package_detail', [
-                      'Tag' => 'Tag',
-                      'Cuci' => 'Cuci',
-                      'Setrika' => 'Setrika',
-                      'Qc' => 'Qc',
-                      'Packing' => 'Packing'
+                      'Tag' => 'Tag Satuan',
+                      'Cuci' => 'Cuci Operasional Satuan',
+                      'Setrika' => 'Setrika Operasional Satuan',
+                      'Qc' => 'Qc Satuan',
+                      'Packing' => 'Packing Satuan'
                       ],
                       null, ['class'=>'form-control']
                       ) !!}
