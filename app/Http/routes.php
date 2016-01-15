@@ -446,6 +446,14 @@ Route::group(array('prefix' => 'admin'),function() {
        'uses' => 'TransactionController@package_autocomplete',
        'roles' => ['Admin', 'Owner']
    ]);
+
+   Route::get('transaction/package_autocomplete_trans', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.package_autocomplete_trans',
+       'uses' => 'TransactionController@package_autocomplete_trans',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
    Route::get('transaction/package_autocomplete_pcs', [
        'middleware' => ['auth', 'roles'],
        'as' => 'kasir.transaction.package_autocomplete_pcs',

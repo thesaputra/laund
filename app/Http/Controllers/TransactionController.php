@@ -308,6 +308,24 @@ class TransactionController extends Controller
     return response()->json($results);
   }
 
+  public function package_autocomplete_trans(Request $request)
+  {
+    $term = $request->term;
+
+    $results = array();
+
+    $queries = \DB::table('packages')
+    ->where('name', 'LIKE', '%'.$term.'%')
+    ->take(10)->get();
+
+    foreach ($queries as $query)
+    {
+      $results[] = [ 'id' => $query->id, 'name' => $query->name, 'price_regular' => $query->price_regular, 'price_express' => $query->price_express, 'unit' => $query->unit ];
+    }
+
+    return response()->json($results);
+  }
+
   public function package_autocomplete(Request $request)
   {
     $term = $request->term;

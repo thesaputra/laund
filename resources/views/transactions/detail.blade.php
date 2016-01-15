@@ -347,7 +347,7 @@
             templates: {notFound:"Data not found"},
             source: function (query, processSync, processAsync) {
               return $.ajax({
-                url: '{!! route("kasir.transaction.package_autocomplete") !!}',
+                url: '{!! route("kasir.transaction.package_autocomplete_trans") !!}',
                 type: 'GET',
                 data: {"term": query},
                 dataType: 'json',
