@@ -99,9 +99,9 @@ class ReportController extends Controller
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
     ->where('packages.unit','!=','Pcs')
+    ->where('transactions.deleted','=',0)
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
-
 
     return $results;
   }
@@ -120,6 +120,7 @@ class ReportController extends Controller
     ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->where('transaction_pcs.status','=','Selesai')
     ->where('transaction_pcs.user_id','=',$user_id)
+    ->where('transactions.deleted','=',0)
     ->get();
 
     return $results;
@@ -192,25 +193,10 @@ class ReportController extends Controller
                      LEFT JOIN customers on transactions.customer_id = customers.id
 
                      WHERE transactions.date_order BETWEEN '$date_start' AND '$date_end'
+                     AND transactions.deleted = 0
                      group by transactions.id
                       "));
-    // dd($results);
-    // die();
 
-    // $results = PaymentHistory::whereBetween('payment_histories.created_at', [$date_start, $date_end])
-    // ->join('transactions','payment_histories.transaction_id','=','transactions.id')
-    // ->join('transaction_details','transaction_details.transaction_id','=','transaction_details.id')
-    // ->join('packages','transaction_details.package_id','=','packages.id')
-    // ->join('customers','transactions.customer_id','=','customers.id')
-    // ->join('status','transactions.status_id','=','status.id')
-    //
-    // ->select('transaction_details.qty as jml_kg','packages.unit as unit_satuan','payment_histories.amount as amount_payment','payment_histories.description as desc_payment','payment_histories.created_at as created_at_payment', 'transactions.invoice_number','transactions.date_checkout','transactions.discount','status.name as status_trans','transactions.date_order',
-    //          'customers.name as customer_name','customers.address as customer_address','transaction_details.package_type as tipe_paket','packages.price_regular as harga_regular','packages.price_express as harga_express'
-
-
-            //  )
-    // ->groupBy('transactions.invoice_number')
-    // ->get();
 
     return $results;
   }
@@ -231,7 +217,7 @@ class ReportController extends Controller
 
 
              )
-    // ->groupBy('transactions.invoice_number')
+    ->where('transactions.deleted','=',0)
     ->get();
 
     return $results;

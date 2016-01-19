@@ -32,11 +32,29 @@ class CustomerController extends Controller
       'address',
       'phone',
       'membership'
-    ]);
+    ])
+    ->where('deleted','=',0);
     return Datatables::of($customers)
     ->addColumn('action', function ($customer) {
-      return '<a href="./customer/edit/'.$customer->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+      return
+      '
+      <div class="col-md-9">
+      <a href="./customer/edit/'.$customer->id.'" class="inline btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+      </div>
+      <div class="col-md-3">
+      <form method="POST" action="./customer/delete_customer/'.$customer->id.'" accept-charset="UTF-8" class="inline">
+        <input name="_method" type="hidden" value="PATCH">
+        <input name="_token" type="hidden" value="'.csrf_token().'">
+        <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
+        <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
+      </form>
+      </div>
+
+      ';
+
     })
+
+
     ->make(true);
   }
 
@@ -107,6 +125,20 @@ class CustomerController extends Controller
     $customer->update($customerUpdate);
 
     Session::flash('flash_message', 'Data pelanggan berhasil diupdate!');
+
+    return redirect('admin/customer');
+  }
+
+  public function delete_customer(Request $request, $id)
+  {
+
+    $transUser=$request->input();
+
+    $trans = Customer::find($id);
+
+    $trans->update($transUser);
+
+    Session::flash('flash_message', 'Data pelanggan berhasil dihapus!');
 
     return redirect('admin/customer');
   }

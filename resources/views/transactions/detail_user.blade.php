@@ -34,6 +34,101 @@
                   <td colspan="3">{{$data_transaction['transaction']->name.' / '.$data_transaction['transaction']->phone.' / '.str_limit($data_transaction['transaction']->address, $limit = 20, $end = '...')}}</td>
                 </tr>
               </table>
+
+
+              <table class="table table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>Jenis Layanan</th>
+                    <th class="text-center">Qty</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $total_kg_reg = 0;
+                  $total_kg_reg_price = 0;
+
+                  $total_mtr_reg = 0;
+                  $total_mtr_reg_price = 0;
+
+                  $total_pcs_reg = 0;
+                  $total_pcs_reg_price = 0;
+
+                  $total_kg_exp = 0;
+                  $total_kg_exp_price = 0;
+
+                  $total_mtr_exp = 0;
+                  $total_mtr_exp_price = 0;
+
+                  $total_pcs_exp = 0;
+                  $total_pcs_exp_price = 0;
+                  ?>
+                  @foreach ($data_transaction['detail_transaction'] as $key=>$data)
+                  <tr>
+                    <td>{{ $key+1 }}</td>
+                    <td>{{ ($data->package_type == 1 ) ? 'Reg'.'-'.$data->name : 'Exp'.'-'.$data->name }}</td>
+                    <td align="center">{{ $data->qty }}</td>
+                    </tr>
+                    <?php
+                    if ($data->package_type == 1) {
+                      if (($data->unit) == 'Kg') {
+                        $total_kg_reg += $data->qty;
+                        $total_kg_reg_price += $data->qty * $data->price_regular;
+                      }
+                      if (($data->unit) == 'Pcs') {
+                        $total_pcs_reg += $data->qty;
+                        $total_pcs_reg_price += $data->qty * $data->price_regular;
+                      }
+                      if (($data->unit) == 'Mtr') {
+                        $total_mtr_reg += $data->qty;
+                        $total_mtr_reg_price += $data->qty * $data->price_regular;
+                      }
+
+                    } else {
+                      if (($data->unit) == 'Kg') {
+                        $total_kg_exp += $data->qty;
+                        $total_kg_exp_price += $data->qty * $data->price_express;
+                      }
+                      if (($data->unit) == 'Pcs') {
+                        $total_pcs_exp += $data->qty;
+                        $total_pcs_exp_price += $data->qty * $data->price_express;
+                      }
+                      if (($data->unit) == 'Mtr') {
+                        $total_mtr_exp += $data->qty;
+                        $total_mtr_exp_price += $data->qty * $data->price_express;
+                      }
+                    }
+                    ?>
+                    @endforeach
+                  </tbody>
+                </table>
+                <table class="table table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>Satuan</th>
+                      <th class="text-center">Reguler</th>
+                      <th class="text-center">Express</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Kg</td>
+                      <td class="text-right">{{ $total_kg_reg }}</td>
+                      <td class="text-right">{{ $total_kg_exp }}</td>
+                    </tr>
+                    <tr>
+                      <td>Mtr</td>
+                      <td class="text-right">{{ $total_mtr_reg }}</td>
+                      <td class="text-right">{{ $total_mtr_exp }}</td>
+                    </tr>
+                    <tr>
+                      <td>Pcs</td>
+                      <td class="text-right">{{ $total_pcs_reg }}</td>
+                      <td class="text-right">{{ $total_pcs_exp }}</td>
+                    </tr>
+                  </tbody>
+                </table>
             </div>
             <div>
               <div class="row">
@@ -139,6 +234,101 @@
                       <td colspan="3">{{$data_transaction['transaction']->name.' / '.$data_transaction['transaction']->phone.' / '.str_limit($data_transaction['transaction']->address, $limit = 20, $end = '...')}}</td>
                     </tr>
                   </table>
+
+                  <table class="table table-striped table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <th>No</th>
+                        <th>Jenis Layanan</th>
+                        <th class="text-center">Qty</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php
+                      $total_kg_reg = 0;
+                      $total_kg_reg_price = 0;
+
+                      $total_mtr_reg = 0;
+                      $total_mtr_reg_price = 0;
+
+                      $total_pcs_reg = 0;
+                      $total_pcs_reg_price = 0;
+
+                      $total_kg_exp = 0;
+                      $total_kg_exp_price = 0;
+
+                      $total_mtr_exp = 0;
+                      $total_mtr_exp_price = 0;
+
+                      $total_pcs_exp = 0;
+                      $total_pcs_exp_price = 0;
+                      ?>
+                      @foreach ($data_transaction['detail_transaction'] as $key=>$data)
+                      <tr>
+                        <td>{{ $key+1 }}</td>
+                        <td>{{ ($data->package_type == 1 ) ? 'Reg'.'-'.$data->name : 'Exp'.'-'.$data->name }}</td>
+                        <td align="center">{{ $data->qty }}</td>
+                        </tr>
+                        <?php
+                        if ($data->package_type == 1) {
+                          if (($data->unit) == 'Kg') {
+                            $total_kg_reg += $data->qty;
+                            $total_kg_reg_price += $data->qty * $data->price_regular;
+                          }
+                          if (($data->unit) == 'Pcs') {
+                            $total_pcs_reg += $data->qty;
+                            $total_pcs_reg_price += $data->qty * $data->price_regular;
+                          }
+                          if (($data->unit) == 'Mtr') {
+                            $total_mtr_reg += $data->qty;
+                            $total_mtr_reg_price += $data->qty * $data->price_regular;
+                          }
+
+                        } else {
+                          if (($data->unit) == 'Kg') {
+                            $total_kg_exp += $data->qty;
+                            $total_kg_exp_price += $data->qty * $data->price_express;
+                          }
+                          if (($data->unit) == 'Pcs') {
+                            $total_pcs_exp += $data->qty;
+                            $total_pcs_exp_price += $data->qty * $data->price_express;
+                          }
+                          if (($data->unit) == 'Mtr') {
+                            $total_mtr_exp += $data->qty;
+                            $total_mtr_exp_price += $data->qty * $data->price_express;
+                          }
+                        }
+                        ?>
+                        @endforeach
+                      </tbody>
+                    </table>
+                    <table class="table table-striped table-bordered table-hover">
+                      <thead>
+                        <tr>
+                          <th>Satuan</th>
+                          <th class="text-center">Reguler</th>
+                          <th class="text-center">Express</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Kg</td>
+                          <td class="text-right">{{ $total_kg_reg }}</td>
+                          <td class="text-right">{{ $total_kg_exp }}</td>
+                        </tr>
+                        <tr>
+                          <td>Mtr</td>
+                          <td class="text-right">{{ $total_mtr_reg }}</td>
+                          <td class="text-right">{{ $total_mtr_exp }}</td>
+                        </tr>
+                        <tr>
+                          <td>Pcs</td>
+                          <td class="text-right">{{ $total_pcs_reg }}</td>
+                          <td class="text-right">{{ $total_pcs_exp }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                 </div>
                 <div class="col-md-4">
                   <div class="row">

@@ -47,7 +47,7 @@ Apartement Jarrdin Cihampelas<br>
         Total
       </td>
       <td>
-        {{$qtys}} {{ $data->unit }}
+        {{$qtys}}
       </td>
       <td>{{number_format( $subtotal, 2, ',', '.')}}</td>
 

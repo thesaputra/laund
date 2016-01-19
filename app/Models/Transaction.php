@@ -8,7 +8,7 @@ class Transaction extends Model
 {
   protected $table = 'transactions';
   protected $primarykey = 'id';
-  protected $fillable = array('date_order','date_deliver','customer_id','user_id','status_id','time_deliver','amount_dp','amount_left','discount','description','invoice_number','rack_info','date_checkout');
+  protected $fillable = array('deleted', 'date_order','date_deliver','customer_id','user_id','status_id','time_deliver','amount_dp','amount_left','discount','description','invoice_number','rack_info','date_checkout');
   protected $hidden = ['id', 'created_at', 'updated_at'];
 
   public function customer()

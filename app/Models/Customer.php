@@ -8,7 +8,7 @@ class Customer extends Model
 {
   protected $table = 'customers';
   protected $primarykey = 'id';
-  protected $fillable = array('name','code','address','phone','membership');
+  protected $fillable = array('name','code','address','phone','membership','deleted');
   protected $hidden = ['id', 'created_at', 'updated_at'];
 
   public function transactions()

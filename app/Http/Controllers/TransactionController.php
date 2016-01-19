@@ -47,6 +47,7 @@ class TransactionController extends Controller
       'customers.name as cust_name',
       'customers.phone as cust_phone'
       ])
+    ->where('transactions.deleted','=','0')
     ->orderBy('transactions.date_order', 'desc');
 
     return Datatables::of($transactions)
@@ -63,7 +64,23 @@ class TransactionController extends Controller
                 return $transaction->date_deliver ? with(new Carbon($transaction->date_deliver))->format('d/m/Y').'-'.$transaction->time_deliver : '';
             })
     ->addColumn('action', function ($transaction) {
-      return '<a href="./transaction/edit/'.$transaction->trans_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a> <a href="./transaction/detail/'.$transaction->trans_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-globe"></i> Detail</a>';
+      return
+        '<div class="col-md-3">
+        <a href="./transaction/edit/'.$transaction->trans_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+        </div>
+        <div class="col-md-6">
+        <a href="./transaction/detail/'.$transaction->trans_id.'" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-globe"></i> Detail</a>
+        </div>
+        <div class="col-md-3">
+        <form method="POST" action="./transaction/delete_transaction/'.$transaction->trans_id.'" accept-charset="UTF-8" class="inline">
+          <input name="_method" type="hidden" value="PATCH">
+          <input name="_token" type="hidden" value="'.csrf_token().'">
+          <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
+          <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
+        </form>
+        </div>
+
+        ';
     })
     ->make(true);
   }
@@ -261,10 +278,16 @@ class TransactionController extends Controller
     ->select('transaction_pcs.*','transaction_pcs.id as trans_user_id','users.*','packages.name as package_name')
     ->paginate(25);
 
+    $list_detail = TransactionDetail::where('transaction_details.transaction_id','=', $id)
+    ->join('packages','transaction_details.package_id','=','packages.id')
+    ->select('transaction_details.*','transaction_details.id as detail_id','packages.*')
+    ->paginate(25);
+
 
     $data_transaction = array(
       'transaction'  => $transaction,
       'user_transaction' => $list_user,
+      'detail_transaction'   => $list_detail,
       'pcs_transaction' => $list_pcs
 
     );
@@ -372,6 +395,7 @@ class TransactionController extends Controller
 
     $queries = \DB::table('customers')
     ->where('name', 'LIKE', '%'.$term.'%')
+    ->where('deleted', '=', 0)
     ->orWhere('phone', 'LIKE', '%'.$term.'%')
     ->take(10)->get();
 
@@ -603,6 +627,19 @@ class TransactionController extends Controller
     ];
 
     return $data;
+  }
+
+  public function delete_transaction(Request $request, $id)
+  {
+    $transUser=$request->input();
+
+    $trans = Transaction::find($id);
+
+    $trans->update($transUser);
+
+    Session::flash('flash_message', 'Data Transaksi berhasil dihapus!');
+
+    return redirect()->back();
   }
 
   private function invoiced($date)

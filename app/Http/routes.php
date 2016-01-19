@@ -148,6 +148,13 @@ Route::group(array('prefix' => 'admin'),function() {
       'roles' => ['Admin', 'Owner']
   ]);
 
+  Route::patch('customer/delete_customer/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'admin.customer.delete',
+      'uses' => 'CustomerController@delete_customer',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
   Route::get('package', [
       'middleware' => ['auth', 'roles'],
       'as' => 'admin.package',
@@ -281,6 +288,13 @@ Route::group(array('prefix' => 'admin'),function() {
        'middleware' => ['auth', 'roles'],
        'as' => 'kasir.transaction',
        'uses' => 'TransactionController@index',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+   Route::patch('transaction/delete_transaction/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'kasir.transaction.delete_transaction',
+       'uses' => 'TransactionController@delete_transaction',
        'roles' => ['Admin', 'Owner']
    ]);
 
