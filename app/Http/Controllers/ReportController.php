@@ -50,9 +50,12 @@ class ReportController extends Controller
     $date_end = $request->input('date_end');
 
     $view =  \View::make('reports.print_daily_status', compact('data','date_start','date_end'))->render();
-    $pdf = \App::make('dompdf.wrapper');
-    $pdf->loadHTML($view);
-    return $pdf->stream('invoice');
+
+    return view('reports.print_daily_status', compact('data','date_start','date_end'));
+
+    // $pdf = \App::make('dompdf.wrapper');
+    // $pdf->loadHTML($view);
+    // return $pdf->stream('invoice');
   }
 
   public function process(Request $request)
@@ -70,19 +73,23 @@ class ReportController extends Controller
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
 
-      $view =  \View::make('reports.print_sallary_report', compact('data','date_start','date_end','user_name'))->render();
+      // $view =  \View::make('reports.print_sallary_report', compact('data','date_start','date_end','user_name'))->render();
+      return view('reports.print_sallary_report', compact('data','date_start','date_end','user_name'));
+
     } else {
       $data = $this->get_data_report_pcs($date_start,$date_end,$user_id);
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
 
-      $view =  \View::make('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'))->render();
+      // $view =  \View::make('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'))->render();
+      return view('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'));
+
     }
 
 
-    $pdf = \App::make('dompdf.wrapper');
-    $pdf->loadHTML($view);
-    return $pdf->stream('invoice');
+    // $pdf = \App::make('dompdf.wrapper');
+    // $pdf->loadHTML($view);
+    // return $pdf->stream('invoice');
   }
 
   public function get_data_report($date_start,$date_end,$user_id)
@@ -137,10 +144,13 @@ class ReportController extends Controller
     $date_start = $request->input('date_start');
     $date_end = $request->input('date_end');
 
-    $view =  \View::make('reports.print_daily_recap', compact('data','date_start','date_end'))->render();
-    $pdf = \App::make('dompdf.wrapper');
-    $pdf->loadHTML($view);
-    return $pdf->stream('invoice');
+    return view('reports.print_daily_recap', compact('data','date_start','date_end'));
+
+
+    // $view =  \View::make('reports.print_daily_recap', compact('data','date_start','date_end'))->render();
+    // $pdf = \App::make('dompdf.wrapper');
+    // $pdf->loadHTML($view);
+    // return $pdf->stream('invoice');
   }
 
   public function get_data_report_status($date_start,$date_end)
