@@ -20,6 +20,15 @@ Apartement Jarrdin Cihampelas<br>
   $total_kg = 0;
   $total_mtr = 0;
   ?>
+  <?php
+          if( !function_exists('ceiling') )
+          {
+              function ceiling($number, $significance = 1)
+              {
+                  return ( is_numeric($number) && is_numeric($significance) ) ? (ceil($number/$significance)*$significance) : false;
+              }
+          }
+          ?>
       <tr>
         <th>No</th>
         <th>Invoice</th>
@@ -42,8 +51,8 @@ Apartement Jarrdin Cihampelas<br>
         <td>{{ ($data->jml_kg == '') ? '0':$data->jml_kg }}</td>
         <td>{{ ($data->jml_mtr == '') ? '0':$data->jml_mtr }}</td>
         <td>{{ ($data->jml_pcs == '') ? '0':$data->jml_pcs }}</td>
-        <td align="right">{{ number_format( round($data->sudah_bayar,-2), 2, ',', '.') }}</td>
-        <td align="right">{{ number_format( round(($data->sudah_bayar-$data->trans_amount_total),-2), 2, ',', '.') }}</td>
+        <td align="right">{{ number_format( ceiling($data->sudah_bayar,100), 0, ',', '.') }}</td>
+        <td align="right">{{ number_format( ceiling(($data->sudah_bayar-$data->trans_amount_total),100), 0, ',', '.') }}</td>
       </tr>
       <?php
       $total_sudah_bayar += $data->sudah_bayar;
@@ -63,8 +72,8 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{$total_kg}}</td>
       <td>{{$total_mtr}}</td>
       <td>{{$total_pcs}}</td>
-      <td align="right">{{ number_format( round($total_sudah_bayar,-2), 2, ',', '.') }}</td>
-      <td align="right">{{ number_format( round($total_sisa_bayar,-2), 2, ',', '.') }}</td>
+      <td align="right">{{ number_format( ceiling($total_sudah_bayar,100), 0, ',', '.') }}</td>
+      <td align="right">{{ number_format( ceiling($total_sisa_bayar,100), 0, ',', '.') }}</td>
     </tr>
   </tbody>
 </table>

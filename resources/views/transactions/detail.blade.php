@@ -4,6 +4,15 @@
 <div class="row">
   <h3 class="page-header" id="detail-item">Detail Transaksi</h3>
   <div class="col-md-8">
+  <?php
+          if( !function_exists('ceiling') )
+          {
+              function ceiling($number, $significance = 1)
+              {
+                  return ( is_numeric($number) && is_numeric($significance) ) ? (ceil($number/$significance)*$significance) : false;
+              }
+          }
+          ?>
     <table class="table table-bordered">
       <tr>
         <th>Invoice No:</th>
@@ -170,7 +179,7 @@
                     Total Bayar
                   </td>
                   <td class="text-right bg-warning">
-                    {{ number_format( round($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price,-2), 2, ',', '.') }}
+                    {{ number_format( ceiling($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price,100), 2, ',', '.') }}
                   </td>
                 </tr>
               </tfoot>
@@ -213,7 +222,7 @@
                         Total Bayar
                       </td>
                       <td class="text-right bg-success">
-                        {{ number_format(round($total_bayar,-2), 2, ',', '.') }}
+                        {{ number_format(ceiling($total_bayar,100), 2, ',', '.') }}
                       </td>
                     </tr>
                     <tr>
@@ -229,7 +238,7 @@
                         Sisa Bayar
                       </td>
                       <td class="text-right bg-danger">
-                        {{ number_format(($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price) - $total_bayar - $data_transaction['transaction']->discount, 2, ',', '.') }}
+                        {{ number_format(ceiling(($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price) - $total_bayar - $data_transaction['transaction']->discount,100), 2, ',', '.') }}
                       </td>
                     </tr>
                   </tfoot>
