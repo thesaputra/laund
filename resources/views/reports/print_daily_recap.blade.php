@@ -33,7 +33,7 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{ date('d/m/Y', strtotime($data->date_order)) }}</td>
       <td>{{ date('d/m/Y', strtotime($data->created_at_payment)) }}</td>
       <td>{{ ($data->date_checkout == '0000-00-00') ? '-' : date('d/m/Y', strtotime($data->date_checkout)) }}</td>
-      <td>{{ number_format( $data->amount_payment, 2, ',', '.') }}</td>
+      <td>{{ number_format(round($data->amount_payment,-2), 2, ',', '.' ) }}</td>
     </tr>
     <?php $total_uang_masuk += $data->amount_payment; ?>
     @endforeach
@@ -41,7 +41,7 @@ Apartement Jarrdin Cihampelas<br>
       <td colspan="6" align="right">
         Total Pemasukan:
       </td>
-      <td>{{number_format($total_uang_masuk, 2, ',', '.')}}</td>
+      <td>{{number_format(round($total_uang_masuk,-2), 2, ',', '.')}}</td>
     </tr>
   </tbody>
 </table>

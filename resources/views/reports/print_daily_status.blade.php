@@ -42,12 +42,12 @@ Apartement Jarrdin Cihampelas<br>
         <td>{{ ($data->jml_kg == '') ? '0':$data->jml_kg }}</td>
         <td>{{ ($data->jml_mtr == '') ? '0':$data->jml_mtr }}</td>
         <td>{{ ($data->jml_pcs == '') ? '0':$data->jml_pcs }}</td>
-        <td align="right">{{ number_format( $data->sudah_bayar, 2, ',', '.') }}</td>
-        <td align="right">{{ number_format( ($data->trans_amount_total - $data->sudah_bayar), 2, ',', '.') }}</td>
+        <td align="right">{{ number_format( round($data->sudah_bayar,-2), 2, ',', '.') }}</td>
+        <td align="right">{{ number_format( round(($data->sudah_bayar-$data->trans_amount_total),-2), 2, ',', '.') }}</td>
       </tr>
       <?php
       $total_sudah_bayar += $data->sudah_bayar;
-      $total_sisa_bayar += $data->trans_amount_total - $data->sudah_bayar;
+      $total_sisa_bayar += ($data->sudah_bayar-$data->trans_amount_total);
       $total_kg += $data->jml_kg;
       $total_mtr += $data->jml_mtr;
       $total_pcs += $data->jml_pcs;
@@ -63,8 +63,8 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{$total_kg}}</td>
       <td>{{$total_mtr}}</td>
       <td>{{$total_pcs}}</td>
-      <td align="right">{{ number_format( $total_sudah_bayar, 2, ',', '.') }}</td>
-      <td align="right">{{ number_format( $total_sisa_bayar, 2, ',', '.') }}</td>
+      <td align="right">{{ number_format( round($total_sudah_bayar,-2), 2, ',', '.') }}</td>
+      <td align="right">{{ number_format( round($total_sisa_bayar,-2), 2, ',', '.') }}</td>
     </tr>
   </tbody>
 </table>
