@@ -179,7 +179,7 @@
                     Total Bayar
                   </td>
                   <td class="text-right bg-warning">
-                    {{ number_format( ceiling($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price,100), 2, ',', '.') }}
+                    {{ number_format( ceiling( ($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price),100), 2, ',', '.') }}
                   </td>
                 </tr>
               </tfoot>
