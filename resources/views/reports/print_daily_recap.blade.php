@@ -20,6 +20,7 @@ Apartement Jarrdin Cihampelas<br>
       <th>Tgl Order</th>
       <th>Tgl Bayar</th>
       <th>Tgl Diambil</th>
+      <th>Keterangan</th>
       <th>Jumlah Uang Masuk</th>
     </tr>
   </thead>
@@ -42,6 +43,7 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{ date('d/m/Y', strtotime($data->date_order)) }}</td>
       <td>{{ date('d/m/Y', strtotime($data->created_at_payment)) }}</td>
       <td>{{ ($data->date_checkout == '0000-00-00') ? '-' : date('d/m/Y', strtotime($data->date_checkout)) }}</td>
+      <td>{{ $data->description}}</td>
       <td>
       {{ number_format(ceiling($data->amount_payment,100),0, ',', '.') }}</td>
     </tr>
