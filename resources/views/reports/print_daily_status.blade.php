@@ -52,7 +52,11 @@ Apartement Jarrdin Cihampelas<br>
         <td>{{ ($data->jml_mtr == '') ? '0':$data->jml_mtr }}</td>
         <td>{{ ($data->jml_pcs == '') ? '0':$data->jml_pcs }}</td>
         <td align="right">{{ number_format( ceiling($data->sudah_bayar,100), 0, ',', '.') }}</td>
-        <td align="right">{{ number_format( ceiling(($data->sudah_bayar-$data->trans_amount_total),100), 0, ',', '.') }}</td>
+        <?php if ($data->trans_amount_total-$data->sudah_bayar <= 100) { ?>
+          <td align="right">0</td>
+        <?php } else { ?>
+          <td align="right">{{ number_format( ceiling(($data->sudah_bayar-$data->trans_amount_total),100), 0, ',', '.') }}</td>
+        <?php } ?>
       </tr>
       <?php
       $total_sudah_bayar += $data->sudah_bayar;
