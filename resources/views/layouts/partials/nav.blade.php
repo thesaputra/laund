@@ -66,7 +66,7 @@
                             <a href="{!! route('income.income') !!}"><i class="fa fa-book"></i>Pemasukan</a>
                         </li>
                         <li>
-                            <a href="{!! route('kasir.transaction') !!}"><i class="fa fa-book"></i>Pengeluaran</a>
+                            <a href="{!! route('outcome.outcome') !!}"><i class="fa fa-book"></i>Pengeluaran</a>
                         </li>
                         <li>
                             <a href="{!! route('kasir.transaction') !!}"><i class="fa fa-book"></i>Laporan Revenue</a>

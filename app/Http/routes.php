@@ -548,7 +548,7 @@ Route::group(array('prefix' => 'income'),function() {
       'roles' => ['Admin', 'Owner']
   ]);
 
-  Route::get('income/payroll_data', [
+  Route::get('income/income_data', [
       'middleware' => ['auth', 'roles'],
       'as' => 'data.income',
       'uses' => 'IncomeController@income_data',
@@ -584,6 +584,56 @@ Route::group(array('prefix' => 'income'),function() {
        'middleware' => ['auth', 'roles'],
        'as' => 'income.income.destroy',
        'uses' => 'IncomeController@destroy',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+});  
+
+
+Route::group(array('prefix' => 'outcome'),function() {
+  Route::get('outcome', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'outcome.outcome',
+      'uses' => 'OutcomeController@index',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::get('outcome/outcome_data', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'data.outcome',
+      'uses' => 'OutcomeController@outcome_data',
+      'roles' => ['Admin', 'Owner']
+  ]);
+  Route::get('outcome/create', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.outcome.create',
+       'uses' => 'OutcomeController@create',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::post('outcome/store', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.outcome.store',
+       'uses' => 'OutcomeController@store',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::get('outcome/edit/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'outcome.outcome.edit',
+      'uses' => 'OutcomeController@edit',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::patch('outcome/update/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'outcome.outcome.update',
+      'uses' => 'OutcomeController@update',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+   Route::patch('outcome/destroy/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.outcome.destroy',
+       'uses' => 'OutcomeController@destroy',
        'roles' => ['Admin', 'Owner']
    ]);
 
