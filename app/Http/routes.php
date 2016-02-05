@@ -556,6 +556,21 @@ Route::group(array('prefix' => 'payroll'),function() {
 
 
 Route::group(array('prefix' => 'income'),function() {
+
+  Route::get('report', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'income.report',
+      'uses' => 'IncomeController@report',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+    Route::post('report/process', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'income.revenue.process',
+      'uses' => 'IncomeController@process_report',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
   Route::get('income', [
       'middleware' => ['auth', 'roles'],
       'as' => 'income.income',

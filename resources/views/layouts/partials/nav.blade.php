@@ -69,7 +69,7 @@
                             <a href="{!! route('outcome.outcome') !!}"><i class="fa fa-book"></i>Pengeluaran</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-book"></i>Laporan Revenue</a>
+                            <a href="{!! route('income.report') !!}"><i class="fa fa-book"></i>Laporan Revenue</a>
                         </li>
                     </ul>
                 </li>

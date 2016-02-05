@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 
 use Session;
 use App\Models\Income;
+use App\Models\Outcome;
 
 
 use Yajra\Datatables\Datatables;
@@ -22,45 +23,89 @@ class IncomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-     {
-       return view('incomes.index');
-     }
+    public function report()
+    {
+       return view('reports.revenue');
+   }
 
-     public function income_data()
-     {
-        \DB::statement(\DB::raw('set @rownum=0'));
-        $income = \DB::table('incomes')
-        ->select([\DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-          'incomes.id',
-          'incomes.trans_date',
-          'incomes.description',
-          'incomes.price_income'
-          ])
-        ->where('incomes.deleted','=','0')
-        ->orderBy('incomes.trans_date', 'desc');
+   public function process_report(Request $request)
+   {
+    $date_start = $this->saved_date_format($request->input('date_start'));
+    $date_end = $this->saved_date_format($request->input('date_end'));
 
-        return Datatables::of($income)
-        ->editColumn('trans_date', function ($income) {
-                    return $income->trans_date ? with(new Carbon($income->trans_date))->format('d/m/Y') : '';
-                })
-        ->addColumn('action', function ($income) {
-          return
-            '<div class="col-md-3">
-            <a href="./income/edit/'.$income->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-            </div>
-            <div class="col-md-3">
-            <form method="POST" action="./income/destroy/'.$income->id.'" accept-charset="UTF-8" class="inline">
-              <input name="_method" type="hidden" value="PATCH">
-              <input name="_token" type="hidden" value="'.csrf_token().'">
-              <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
-              <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
-            </form>
-            </div>
-            ';
-        })
-        ->make(true);
-     }
+    $data = $this->get_data_report($date_start,$date_end);
+    $data_out = $this->get_data_report_out($date_start,$date_end);
+    
+
+    $date_start = $request->input('date_start');
+    $date_end = $request->input('date_end');
+
+    return view('reports.print_revenue', compact('data','data_out','date_start','date_end'));
+}
+
+public function get_data_report($date_start,$date_end)
+{
+    $date_end = Carbon::parse($date_end)->addDays(1);
+    $results = Income::whereBetween('incomes.trans_date', [$date_start, $date_end])
+    ->select('incomes.trans_date','incomes.description','incomes.price_income')
+    ->whereBetween('incomes.trans_date', [$date_start, $date_end])
+    ->where('incomes.deleted','=',0)
+    ->get();
+
+    return $results;
+}
+
+public function get_data_report_out($date_start,$date_end)
+{
+    $date_end = Carbon::parse($date_end)->addDays(1);
+    $results = Outcome::whereBetween('outcomes.trans_date', [$date_start, $date_end])
+    ->select('outcomes.trans_date','outcomes.store_name','outcomes.type_trans','outcomes.store_tlp','outcomes.qty','outcomes.description','outcomes.price_income')
+    ->whereBetween('outcomes.trans_date', [$date_start, $date_end])
+    ->where('outcomes.deleted','=',0)
+    ->get();
+
+    return $results;
+}
+
+public function index()
+{
+ return view('incomes.index');
+}
+
+public function income_data()
+{
+    \DB::statement(\DB::raw('set @rownum=0'));
+    $income = \DB::table('incomes')
+    ->select([\DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+      'incomes.id',
+      'incomes.trans_date',
+      'incomes.description',
+      'incomes.price_income'
+      ])
+    ->where('incomes.deleted','=','0')
+    ->orderBy('incomes.trans_date', 'desc');
+
+    return Datatables::of($income)
+    ->editColumn('trans_date', function ($income) {
+        return $income->trans_date ? with(new Carbon($income->trans_date))->format('d/m/Y') : '';
+    })
+    ->addColumn('action', function ($income) {
+      return
+      '<div class="col-md-3">
+      <a href="./income/edit/'.$income->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+  </div>
+  <div class="col-md-3">
+    <form method="POST" action="./income/destroy/'.$income->id.'" accept-charset="UTF-8" class="inline">
+      <input name="_method" type="hidden" value="PATCH">
+      <input name="_token" type="hidden" value="'.csrf_token().'">
+      <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
+      <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
+  </form>
+</div>
+';
+})
+    ->make(true);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -69,8 +114,8 @@ class IncomeController extends Controller
      */
     public function create()
     {
-         return view('incomes.create');
-    }
+       return view('incomes.create');
+   }
 
     /**
      * Store a newly created resource in storage.
@@ -112,7 +157,7 @@ class IncomeController extends Controller
     public function edit($id)
     {
         $income=Income::find($id);
-       
+
         return view('incomes.edit',compact(['income']));
     }
 
