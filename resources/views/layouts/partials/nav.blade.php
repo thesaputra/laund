@@ -54,7 +54,7 @@
                     <ul class="dropdown-menu">
                         <li class="{{ (Request::is('kasir/transaction') ? 'active' : '') }}"><a href="{!! route('payroll.payroll') !!}"><i class="fa fa-book"></i>Transaksi Payroll</a> </li>
                         @if (Auth::user()->role_id != 2)
-                          <li><a href="{!! route('admin.report.index') !!}"><i class="fa fa-book"></i>Laporan Payroll</a></li>
+                          <li><a href="{!! route('payroll.report') !!}"><i class="fa fa-book"></i>Laporan Payroll</a></li>
                         @endif
                     </ul>
                 </li>
@@ -69,7 +69,7 @@
                             <a href="{!! route('outcome.outcome') !!}"><i class="fa fa-book"></i>Pengeluaran</a>
                         </li>
                         <li>
-                            <a href="{!! route('kasir.transaction') !!}"><i class="fa fa-book"></i>Laporan Revenue</a>
+                            <a href="#"><i class="fa fa-book"></i>Laporan Revenue</a>
                         </li>
                     </ul>
                 </li>

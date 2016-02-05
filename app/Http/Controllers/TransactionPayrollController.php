@@ -31,50 +31,82 @@ class TransactionPayrollController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-     {
-       return view('payrolls.index');
-     }
 
-     public function payroll_data()
-     {
-        \DB::statement(\DB::raw('set @rownum=0'));
-        $transaction_payrolls = \DB::table('transaction_payrolls')
-        ->join('users', 'transaction_payrolls.user_id', '=', 'users.id')
-        ->select([\DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-          'transaction_payrolls.id as tp_id',
-          'transaction_payrolls.payroll_date',
-          'users.name',
-          'transaction_payrolls.depart as depart',
-          'transaction_payrolls.gpk as gpk',
-          'transaction_payrolls.bonus as bonus'
+    public function report()
+    {
+     return view('payrolls.report');
+ }
 
-          ])
-        ->where('transaction_payrolls.deleted','=','0')
-        ->orderBy('transaction_payrolls.payroll_date', 'desc');
+ public function process_report(Request $request)
+ {
+    $date_start = $this->saved_date_format($request->input('date_start'));
+    $date_end = $this->saved_date_format($request->input('date_end'));
 
-        return Datatables::of($transaction_payrolls)
-        ->editColumn('payroll_date', function ($transaction_payrolls) {
-                    return $transaction_payrolls->payroll_date ? with(new Carbon($transaction_payrolls->payroll_date))->format('d/m/Y') : '';
-                })
-        ->addColumn('action', function ($transaction_payrolls) {
-          return
-            '<div class="col-md-3">
-            <a href="./payroll/edit/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
-            </div>
-            <div class="col-md-3">
-            <form method="POST" action="./payroll/destroy/'.$transaction_payrolls->tp_id.'" accept-charset="UTF-8" class="inline">
-              <input name="_method" type="hidden" value="PATCH">
-              <input name="_token" type="hidden" value="'.csrf_token().'">
-              <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
-              <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
-            </form>
-            </div>
+    $data = $this->get_data_report($date_start,$date_end);
+    $date_start = $request->input('date_start');
+    $date_end = $request->input('date_end');
 
-            ';
-        })
-        ->make(true);
-     }
+    return view('reports.print_payroll', compact('data','date_start','date_end'));
+
+}
+
+public function get_data_report($date_start,$date_end)
+  {
+    $date_end = Carbon::parse($date_end)->addDays(1);
+    $results = TransactionPayroll::whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
+    ->join('users','transaction_payrolls.user_id','=','users.id')
+    ->select('transaction_payrolls.payroll_date','transaction_payrolls.depart','transaction_payrolls.gpk','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+    ->whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
+    ->where('transaction_payrolls.deleted','=',0)
+    ->get();
+
+    return $results;
+  }
+
+public function index()
+{
+ return view('payrolls.index');
+}
+
+public function payroll_data()
+{
+    \DB::statement(\DB::raw('set @rownum=0'));
+    $transaction_payrolls = \DB::table('transaction_payrolls')
+    ->join('users', 'transaction_payrolls.user_id', '=', 'users.id')
+    ->select([\DB::raw('@rownum  := @rownum  + 1 AS rownum'),
+      'transaction_payrolls.id as tp_id',
+      'transaction_payrolls.payroll_date',
+      'users.name',
+      'transaction_payrolls.depart as depart',
+      'transaction_payrolls.gpk as gpk',
+      'transaction_payrolls.bonus as bonus'
+
+      ])
+    ->where('transaction_payrolls.deleted','=','0')
+    ->orderBy('transaction_payrolls.payroll_date', 'desc');
+
+    return Datatables::of($transaction_payrolls)
+    ->editColumn('payroll_date', function ($transaction_payrolls) {
+        return $transaction_payrolls->payroll_date ? with(new Carbon($transaction_payrolls->payroll_date))->format('d/m/Y') : '';
+    })
+    ->addColumn('action', function ($transaction_payrolls) {
+      return
+      '<div class="col-md-3">
+      <a href="./payroll/edit/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+  </div>
+  <div class="col-md-3">
+    <form method="POST" action="./payroll/destroy/'.$transaction_payrolls->tp_id.'" accept-charset="UTF-8" class="inline">
+      <input name="_method" type="hidden" value="PATCH">
+      <input name="_token" type="hidden" value="'.csrf_token().'">
+      <input id="deleted" class="form-control" name="deleted" type="hidden" value="1">
+      <input class="inline btn btn-danger btn-xs" type="submit" value="Hapus">
+  </form>
+</div>
+
+';
+})
+    ->make(true);
+}
 
     /**
      * Show the form for creating a new resource.
@@ -127,7 +159,7 @@ class TransactionPayrollController extends Controller
     {
         $transaction_payroll=TransactionPayroll::find($id);
         $user = User::where('id', '=', $transaction_payroll->user_id)->firstOrFail();
-       
+
         return view('payrolls.edit',compact(['transaction_payroll','user']));
     }
 
@@ -140,19 +172,19 @@ class TransactionPayrollController extends Controller
      */
     public function update(Request $request, $id)
     {
-    
-    $date_payroll = $this->saved_date_format($request->input('payroll_date'));
+
+        $date_payroll = $this->saved_date_format($request->input('payroll_date'));
         
-    $request->merge(array('payroll_date'=>$date_payroll));
+        $request->merge(array('payroll_date'=>$date_payroll));
 
-    $transUpdate=$request->input();
-    $trans=TransactionPayroll::find($id);
+        $transUpdate=$request->input();
+        $trans=TransactionPayroll::find($id);
 
-    $trans->update($transUpdate);
+        $trans->update($transUpdate);
 
-    Session::flash('flash_message', 'Data berhasil diubah!');
+        Session::flash('flash_message', 'Data berhasil diubah!');
 
-    return redirect()->back();
+        return redirect()->back();
     }
 
     /**

@@ -285,6 +285,21 @@ Route::group(array('prefix' => 'admin'),function() {
 
 
 Route::group(array('prefix' => 'payroll'),function() {
+
+  Route::get('report', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'payroll.report',
+      'uses' => 'TransactionPayrollController@report',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+    Route::post('report/process', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'payroll.report.process',
+      'uses' => 'TransactionPayrollController@process_report',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
   Route::get('payroll', [
       'middleware' => ['auth', 'roles'],
       'as' => 'payroll.payroll',
