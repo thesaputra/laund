@@ -307,7 +307,7 @@ class TransactionController extends Controller
 
     foreach ($queries as $query)
     {
-      $results[] = [ 'id' => $query->id, 'name' => $query->name ];
+      $results[] = [ 'id' => $query->id, 'name' => $query->name,'address' => $query->address,'phone' => $query->phone ];
     }
 
     return response()->json($results);

@@ -283,6 +283,56 @@ Route::group(array('prefix' => 'admin'),function() {
 
 });
 
+
+Route::group(array('prefix' => 'payroll'),function() {
+  Route::get('payroll', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'payroll.payroll',
+      'uses' => 'TransactionPayrollController@index',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::get('payroll/payroll_data', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'data.payroll',
+      'uses' => 'TransactionPayrollController@payroll_data',
+      'roles' => ['Admin', 'Owner']
+  ]);
+  Route::get('payroll/create', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.payroll.create',
+       'uses' => 'TransactionPayrollController@create',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::post('payroll/store', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.payroll.store',
+       'uses' => 'TransactionPayrollController@store',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::get('payroll/edit/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'payroll.payroll.edit',
+      'uses' => 'TransactionPayrollController@edit',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::patch('payroll/update/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'payroll.payroll.update',
+      'uses' => 'TransactionPayrollController@update',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+   Route::patch('payroll/destroy/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.payroll.destroy',
+       'uses' => 'TransactionPayrollController@destroy',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+});  
+
  Route::group(array('prefix' => 'kasir'),function() {
    Route::get('transaction', [
        'middleware' => ['auth', 'roles'],
@@ -488,3 +538,53 @@ Route::group(array('prefix' => 'admin'),function() {
    ]);
 
  });
+
+
+Route::group(array('prefix' => 'income'),function() {
+  Route::get('income', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'income.income',
+      'uses' => 'IncomeController@index',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::get('income/payroll_data', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'data.income',
+      'uses' => 'IncomeController@income_data',
+      'roles' => ['Admin', 'Owner']
+  ]);
+  Route::get('income/create', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'income.income.create',
+       'uses' => 'IncomeController@create',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::post('income/store', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'income.income.store',
+       'uses' => 'IncomeController@store',
+       'roles' => ['Admin', 'Owner']
+   ]);
+  Route::get('income/edit/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'income.income.edit',
+      'uses' => 'IncomeController@edit',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+  Route::patch('income/update/{id}', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'income.income.update',
+      'uses' => 'IncomeController@update',
+      'roles' => ['Admin', 'Owner']
+  ]);
+
+   Route::patch('income/destroy/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'income.income.destroy',
+       'uses' => 'IncomeController@destroy',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+});  
