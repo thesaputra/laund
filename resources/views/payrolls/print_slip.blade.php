@@ -11,7 +11,7 @@ Hp: 0857 9444 0447
 <br/>
 
 <span style="margin-right:19px;">Tanggal</span><span>:{{$data->payroll_date}}</span><br/>
-<span style="margin-right:43px;">Ket.</span><span>:{{$data->description}}</span><br/><br/>
+<span style="margin-right:15px;">Bag/Ket.</span><span>:{{$data->depart}}/{{$data->description}}</span><br/><br/>
 <span style="margin-right:33px;">Nama</span><span>:{{$data->name}}</span><br/>
 <span style="margin-right:43px;">Gaji</span><span>:Rp.{{number_format($data->gpk, 2, ',', '.')}}</span><br/>
 <span style="margin-right:30px;">Bonus</span><span>:Rp.{{number_format($data->bonus, 2, ',', '.')}}</span><br/>
