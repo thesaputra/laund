@@ -368,6 +368,8 @@
                       'Selesai' => 'Selesai'],
                       null, ['class'=>'form-control']
                       ) !!}
+                      {!! Form::text('description',null,['id'=>'description', 'class'=>'form-control','placeholder'=>'Keterangan']) !!}
+
                       <br/>
                       <button type="submit" class="btn btn-primary col-xs-12">Tambah</button>
                     </div>
