@@ -95,6 +95,9 @@ public function payroll_data()
       <a href="./payroll/edit/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
   </div>
   <div class="col-md-3">
+      <a href="./payroll/print_slip/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-print"></i> Print Slip</a>
+  </div>
+  <div class="col-md-3">
     <form method="POST" action="./payroll/destroy/'.$transaction_payrolls->tp_id.'" accept-charset="UTF-8" class="inline">
       <input name="_method" type="hidden" value="PATCH">
       <input name="_token" type="hidden" value="'.csrf_token().'">
@@ -107,6 +110,22 @@ public function payroll_data()
 })
     ->make(true);
 }
+
+
+    public function print_slip($id)
+      {
+        $data = TransactionPayroll::where('transaction_payrolls.id', $id)
+            ->join('users','transaction_payrolls.user_id','=','users.id')
+            ->select('transaction_payrolls.payroll_date','transaction_payrolls.depart','transaction_payrolls.gpk','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+            ->where('transaction_payrolls.deleted','=',0)
+            ->first();
+       
+        $view =  \View::make('payrolls.print_slip', compact('data'))->render();
+        $pdf = \App::make('dompdf.wrapper');
+        $pdf->loadHTML($view);
+        return $pdf->stream('invoice');
+      }
+
 
     /**
      * Show the form for creating a new resource.

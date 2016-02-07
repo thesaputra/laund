@@ -286,6 +286,13 @@ Route::group(array('prefix' => 'admin'),function() {
 
 Route::group(array('prefix' => 'payroll'),function() {
 
+  Route::get('payroll/print_slip/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.report',
+       'uses' => 'TransactionPayrollController@print_slip',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
   Route::get('report', [
       'middleware' => ['auth', 'roles'],
       'as' => 'payroll.report',
