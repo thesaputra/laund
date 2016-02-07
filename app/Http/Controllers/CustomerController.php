@@ -78,11 +78,18 @@ class CustomerController extends Controller
   {
     $this->validation_rules($request);
 
-    $customer=$request->input();
-    Customer::create($customer);
+    $status_uniq_1 = Customer::where('name', '=', strtolower($request->input('name')))->count(); 
+    $status_uniq_2 = Customer::where('address', '=', strtolower($request->input('address')))->count(); 
+    
+    if ($status_uniq_1 > 0 && $status_uniq_2 > 0) {
+       Session::flash('flash_message', 'Data pelanggan sudah ada');
+    } else {
+      $customer=$request->input();
+      Customer::create($customer);
+      Session::flash('flash_message', 'Data pelanggan berhasil ditambahkan!');
+    }
 
-    Session::flash('flash_message', 'Data pelanggan berhasil ditambahkan!');
-
+    
     return redirect('admin/customer');
   }
 
