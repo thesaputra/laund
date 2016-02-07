@@ -3,13 +3,13 @@
 <address>
 Lobby Kolam Renang, Tower B.No B2<br>
 Apartement Jarrdin Cihampelas<br>
-022-91323820, 0857 9444 0447
+Hp: 0857 9444 0447
 </address>
-<span>---------------------------------------------</span>
+<span>----------------------------------------------------------</span>
 <br/>
 <span>Rincian Pakaian</span><br/>
-<span style="font-size:12px">No.{{$invoice}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span><br/>
-<span style="font-size:12px">Nama: {{$data['transaction']->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:14px">No.{{$invoice}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span><br/>
+<span style="font-size:14px">Nama: {{$data['transaction']->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
 <br/>
 <table style="font-size:12px" width="36%">
 <thead>
@@ -33,7 +33,7 @@ Apartement Jarrdin Cihampelas<br>
 </tbody>
 </table>
 
-<span>---------------------------------------------</span><br/>
+<span>----------------------------------------------------------</span><br/>
 <span style="font-size:18px; font-weight:bold">Terima kasih!</span><br/>
 <span style="font-size:12px">Ketentuan:</span><br/>
 <span style="font-size:10px width:100px; display:block">Maksimal pengambilan barang dilakukan 1 bulan dari tgl
@@ -43,6 +43,7 @@ Apartement Jarrdin Cihampelas<br>
 <br/>
 <span style="font-size:10px">Glory Laundry - Laundry Management<span>
 <style>
+*{margin:0;padding:0}
 address {
   display: block;
   font-style: normal;
