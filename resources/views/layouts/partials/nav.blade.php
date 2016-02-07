@@ -48,17 +48,15 @@
                         @endif
                     </ul>
                 </li>
-
+                @if (Auth::user()->role_id == 3)
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Payroll Management <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li class="{{ (Request::is('kasir/transaction') ? 'active' : '') }}"><a href="{!! route('payroll.payroll') !!}"><i class="fa fa-book"></i>Transaksi Payroll</a> </li>
-                        @if (Auth::user()->role_id != 2)
                           <li><a href="{!! route('payroll.report') !!}"><i class="fa fa-book"></i>Laporan Payroll</a></li>
-                        @endif
                     </ul>
                 </li>
-
+               
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Finance Management <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -73,6 +71,7 @@
                         </li>
                     </ul>
                 </li>
+                @endif
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
