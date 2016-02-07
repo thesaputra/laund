@@ -7,8 +7,9 @@ Hp: 0857 9444 0447
 </address>
 <span>---------------------------------------------------</span>
 <br/>
-<span style="font-size:12px">No.{{$invoice}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span><br/>
-<span style="font-size:12px">Nama: {{$data['transaction']->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:12px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:12px">No.{{$invoice}}</span><br/><span style="font-size:12px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span> ---
+<span style="font-size:12px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:12px">Nama: {{strtoupper($data['transaction']->name.'/'.$data['transaction']->address)}}</span><br/>
 <br/>
 <table style="font-size:12px" width="36%">
 <thead>
