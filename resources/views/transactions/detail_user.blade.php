@@ -8,7 +8,7 @@
       <div class="panel-heading">
         <ul class="nav nav-tabs">
           <li class="tab1"><a href="#tab1default" data-toggle="tab" id="tab1defaultH">Standard</a></li>
-          <li class="tab2"><a href="#tab2default" data-toggle="tab" id=tab2defaultH>Khusus PCS</a></li>
+          <li class="tab2"><a href="#tab2default" data-toggle="tab" id=tab2defaultH>Khusus PCS & MTR</a></li>
         </ul>
       </div>
       <div class="panel-body">
@@ -337,7 +337,7 @@
                       {!! Form::text('user',null,['id'=>'user_pcs', 'class'=>'form-control','placeholder'=>'Nama Pekerja']) !!}
                       {!! Form::hidden('user_id',null,['id'=>'user_id_pcs', 'class'=>'form-control','placeholder'=>'']) !!}
                       {!! Form::hidden('transaction_id',$data_transaction['transaction']->id,['id'=>'transaction_id', 'class'=>'form-control']) !!}
-                      {!! Form::text('package',null,['id'=>'package_pcs', 'class'=>'form-control','placeholder'=>'Jenis Layanan PCS']) !!}
+                      {!! Form::text('package',null,['id'=>'package_pcs', 'class'=>'form-control','placeholder'=>'Jenis Layanan PCS/MTR']) !!}
                       {!! Form::hidden('package_id',null,['id'=>'package_id_pcs', 'class'=>'form-control','placeholder'=>'']) !!}
                       {!! Form::text('start_date',null,['id'=>'start_date', 'class'=>'form-control','placeholder'=>'Tgl Mulai']) !!}
                       {!! Form::text('end_date',null,['id'=>'start_date', 'class'=>'form-control','placeholder'=>'Tgl Selesai']) !!}

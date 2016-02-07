@@ -376,7 +376,7 @@ class TransactionController extends Controller
 
     $queries = \DB::table('packages')
     ->where('name', 'LIKE', '%'.$term.'%')
-    ->where('unit','=','Pcs')
+    ->where('unit','!=','Kg')
     ->take(10)->get();
 
     foreach ($queries as $query)
