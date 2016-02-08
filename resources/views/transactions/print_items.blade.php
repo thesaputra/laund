@@ -8,8 +8,9 @@ Hp: 0857 9444 0447
 <span>----------------------------------------------------------</span>
 <br/>
 <span>Rincian Pakaian</span><br/>
-<span style="font-size:14px">No.{{$invoice}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span><br/>
-<span style="font-size:14px">Nama: {{$data['transaction']->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-size:14px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:12px">No.{{$invoice}}</span><br/><span style="font-size:12px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span> ---
+<span style="font-size:12px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:12px">Nama: {{strtoupper($data['transaction']->name.' / '.$data['transaction']->address)}}</span><br/>
 <br/>
 <table style="font-size:12px" width="36%">
 <thead>
@@ -20,15 +21,18 @@ Hp: 0857 9444 0447
 </tr>
 </thead>
 <tbody>
+<?php $subtotal = 0; ?>
   @foreach($data['item_transaction'] as $key => $value)
 	<tr>
     <td>{{ $value->item_name }}</td>
     <td align="center">{{ $value->description}}</td>
     <td align="center">{{ $value->qty}}</td>
   </tr>
+  <?php $subtotal += $value->qty; ?>
   @endforeach
   <tr style="text-align:right;">
-    <td>Total:</td>
+    <td colspan="2">Total: </td>
+    <td style="text-align:center;"><?=$subtotal;?></td>
   </tr>
 </tbody>
 </table>
