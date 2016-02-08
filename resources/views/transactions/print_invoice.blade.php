@@ -16,11 +16,11 @@ Hp: 0857 9444 0447
 </address>
 <span>---------------------------------------------------</span>
 <br/>
-<span style="font-size:12px">No.{{$invoice}}</span><br/><span style="font-size:12px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span> ---
-<span style="font-size:12px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
-<span style="font-size:12px">Nama: {{strtoupper($data['transaction']->name.' / '.$data['transaction']->address)}}</span><br/>
+<span style="font-size:13px">No.{{$invoice}}</span><br/><span style="font-size:13px">Order: {{ date('d-m-Y', strtotime($data['transaction']->date_order))}}</span> ---
+<span style="font-size:13px">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
+<span style="font-size:13px">Nama: {{strtoupper($data['transaction']->name.' / '.$data['transaction']->address)}}</span><br/>
 <br/>
-<table style="font-size:12px" width="36%">
+<table style="font-size:13px" width="36%">
 <thead>
 <tr>
   <th align="left">Layanan</th>
