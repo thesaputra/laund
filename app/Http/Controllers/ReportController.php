@@ -63,13 +63,14 @@ class ReportController extends Controller
     $date_start = $this->saved_date_format($request->input('date_start'));
     $date_end = $this->saved_date_format($request->input('date_end'));
     $user_id = $request->input('user_id');
+    $task = $request->input('tugas');
 
     $tipe = $request->input('tipe');
 
     $user_name = User::find($user_id)->name;
 
     if ($tipe != 'Pcs') {
-      $data = $this->get_data_report($date_start,$date_end,$user_id);
+      $data = $this->get_data_report($date_start,$date_end,$user_id,$task);
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
 
@@ -77,7 +78,7 @@ class ReportController extends Controller
       return view('reports.print_sallary_report', compact('data','date_start','date_end','user_name'));
 
     } else {
-      $data = $this->get_data_report_pcs($date_start,$date_end,$user_id);
+      $data = $this->get_data_report_pcs($date_start,$date_end,$user_id,$task);
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
 
@@ -92,7 +93,7 @@ class ReportController extends Controller
     // return $pdf->stream('invoice');
   }
 
-  public function get_data_report($date_start,$date_end,$user_id)
+  public function get_data_report($date_start,$date_end,$user_id,$task)
   {
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
@@ -106,6 +107,7 @@ class ReportController extends Controller
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
     ->where('packages.unit','!=','Pcs')
+    ->where('packages.name','LIKE',$task)
     ->where('transactions.deleted','=',0)
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
@@ -113,7 +115,7 @@ class ReportController extends Controller
     return $results;
   }
 
-  public function get_data_report_pcs($date_start,$date_end,$user_id)
+  public function get_data_report_pcs($date_start,$date_end,$user_id,$task)
   {
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
@@ -126,6 +128,7 @@ class ReportController extends Controller
              'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
     ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->where('transaction_pcs.status','=','Selesai')
+    ->where('transaction_pcs.package_detail','LIKE',$task)
     ->where('transaction_pcs.user_id','=',$user_id)
     ->where('transactions.deleted','=',0)
     ->get();

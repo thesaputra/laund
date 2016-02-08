@@ -20,7 +20,7 @@
           {!! Form::text('date_end',null,['id'=>'date-end','class'=>'form-control','required'=>'true']) !!}
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group">
           {!! Form::label('user_id', 'Petugas:') !!}
           {!! Form::select('user_id', $user, null, ['class' => 'form-control']) !!}
@@ -36,9 +36,25 @@
           ) !!}
         </div>
       </div>
+      <div class="col-md-2">
+        <div class="form-group">
+            {!! Form::label('tugas', 'Tugas:') !!}
+          {!! Form::select('tugas', [
+          'Tag' => 'Tag',
+          'Qc' => 'Qc',
+          'Setrika' => 'Setrika',
+          'Cuci' => 'Cuci',
+          'Packing' => 'Packing',
+          'Penerimaan Laundry' => 'Penerimaan Laundry',
+          'Penerimaan Laundry Full Day' => 'Penerimaan Laundry Full Day'
+          ],
+          null, ['class'=>'form-control']
+          ) !!}
+        </div>
+      </div>
 
 
-      <div class="col-md-3">
+      <div class="col-md-2">
         <div class="form-group">
           <label>&nbsp;</label>
           {!! Form::submit('Proses', ['class' => 'btn btn-success form-control']) !!}
