@@ -304,7 +304,7 @@ class TransactionController extends Controller
 
     $queries = \DB::table('users')
     ->where('name', 'LIKE', '%'.$term.'%')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
@@ -322,7 +322,7 @@ class TransactionController extends Controller
 
     $queries = \DB::table('items')
     ->where('name', 'LIKE', '%'.$term.'%')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
@@ -340,7 +340,7 @@ class TransactionController extends Controller
 
     $queries = \DB::table('packages')
     ->where('name', 'LIKE', '%'.$term.'%')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
@@ -359,7 +359,7 @@ class TransactionController extends Controller
     $queries = \DB::table('packages')
     ->where('name', 'LIKE', '%'.$term.'%')
     ->where('unit','!=','Pcs')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
@@ -378,7 +378,7 @@ class TransactionController extends Controller
     $queries = \DB::table('packages')
     ->where('name', 'LIKE', '%'.$term.'%')
     ->where('unit','!=','Kg')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
@@ -398,7 +398,7 @@ class TransactionController extends Controller
     ->where('name', 'LIKE', '%'.$term.'%')
     ->where('deleted', '=', 0)
     ->orWhere('phone', 'LIKE', '%'.$term.'%')
-    ->take(10)->get();
+    ->take(25)->get();
 
     foreach ($queries as $query)
     {
