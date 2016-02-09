@@ -17,7 +17,8 @@
           <th>No</th>
           <th>Invoice Number</th>
           <th>Tanggal Order</th>
-          <th>Info Pelanggan</th>
+          <th>Nama</th>
+          <th>Alamat</th>
           <th>Tgl & Waktu Selesai</th>
           <th>Status/R.Info</th>
           <th>Action</th>
@@ -41,6 +42,7 @@ $(document).ready(function() {
             { data: 'invoice_number', name: 'transactions.invoice_number' },
             { data: 'date_order', name: 'transactions.date_order' },
             { data: 'cust_name', name: 'customers.name' },
+            { data: 'cust_address', name: 'customers.address' },
             { data: 'date_deliver', name: 'transactions.date_deliver' },
             { data: 'status_name', name: 'status.name' },
             {data: 'action', name: 'action', orderable: false, searchable: false}

@@ -361,7 +361,7 @@
                       null, ['class'=>'form-control']
                       ) !!}
 
-                      {!! Form::hidden('unit','Pcs',['id'=>'unit', 'class'=>'form-control','placeholder'=>'']) !!}
+                      {!! Form::hidden('unit',null,['id'=>'unit', 'class'=>'form-control','placeholder'=>'']) !!}
 
                       {!! Form::select('status', [
                       'Proses' => 'Proses',
@@ -747,6 +747,8 @@
             $("#package_id_pcs").val(i.id);
             $("#price_reg_pcs").val(i.price_regular);
             $("#price_exp_pcs").val(i.price_express);
+            $("#unit").val(i.satuan);
+
 
             if($('#package_type option:selected').val() == 1) {
               $("#harga").val(i.price_regular);

@@ -45,6 +45,7 @@ class TransactionController extends Controller
       'transactions.time_deliver as time_deliver',
       'transactions.rack_info',
       'customers.name as cust_name',
+      'customers.address as cust_address',
       'customers.phone as cust_phone'
       ])
     ->where('transactions.deleted','=','0')
