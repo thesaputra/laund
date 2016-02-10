@@ -55,7 +55,7 @@ public function get_data_report($date_start,$date_end)
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = TransactionPayroll::whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->join('users','transaction_payrolls.user_id','=','users.id')
-    ->select('transaction_payrolls.payroll_date','transaction_payrolls.depart','transaction_payrolls.gpk','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+    ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
     ->whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->where('transaction_payrolls.deleted','=',0)
     ->get();
@@ -77,8 +77,6 @@ public function payroll_data()
       'transaction_payrolls.id as tp_id',
       'transaction_payrolls.payroll_date',
       'users.name',
-      'transaction_payrolls.depart as depart',
-      'transaction_payrolls.gpk as gpk',
       'transaction_payrolls.bonus as bonus'
 
       ])
@@ -116,7 +114,7 @@ public function payroll_data()
       {
         $data = TransactionPayroll::where('transaction_payrolls.id', $id)
             ->join('users','transaction_payrolls.user_id','=','users.id')
-            ->select('transaction_payrolls.payroll_date','transaction_payrolls.depart','transaction_payrolls.gpk','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+            ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
             ->where('transaction_payrolls.deleted','=',0)
             ->first();
        

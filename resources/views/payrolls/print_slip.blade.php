@@ -10,12 +10,60 @@ Hp: 0857 9444 0447
 <br/>
 <br/>
 
-<span style="margin-right:19px;">Tanggal</span><span>:{{$data->payroll_date}}</span><br/>
-<span style="margin-right:15px;">Bag/Ket.</span><span>:{{$data->depart}}/{{$data->description}}</span><br/><br/>
-<span style="margin-right:33px;">Nama</span><span>:{{$data->name}}</span><br/>
-<span style="margin-right:43px;">Gaji</span><span>:Rp.{{number_format($data->gpk, 2, ',', '.')}}</span><br/>
-<span style="margin-right:30px;">Bonus</span><span>:Rp.{{number_format($data->bonus, 2, ',', '.')}}</span><br/>
-<span style="margin-right:37px;">Total</span><span>:Rp.{{number_format($data->gpk+$data->bonus, 2, ',', '.')}}</span><br/>
+<table>
+<tr>
+	<td width="70">Tanggal</td>
+	<td>:{{ date('d/m/Y', strtotime($data->payroll_date))}}</td>
+</tr>
+<tr>
+	<td width="70">Keterangan</td>
+	<td>:{{$data->description}}</td>
+</tr>
+<tr>
+	<td width="70">Nama</td>
+	<td>:{{$data->name}}</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+
+</tr>
+<tr>
+	<td>Gaji Tag</td>
+	<td>:{{number_format($data->gpk_tag, 2, ',', '.')}}</td>
+</tr>
+<tr>
+	<td>Gaji Cuci</td>
+	<td>:{{number_format($data->gpk_cuci, 2, ',', '.')}}</td>
+</tr>
+<tr>
+	<td>Gaji Setrika</td>
+	<td>:{{number_format($data->gpk_setrika, 2, ',', '.')}}</td>
+</tr>
+<tr>
+	<td>Gaji Packing</td>
+	<td>:{{number_format($data->gpk_packing, 2, ',', '.')}}</td>
+</tr>
+<tr>
+	<td>Gaji QC</td>
+	<td>:{{number_format($data->gpk_qc, 2, ',', '.')}}</td>
+</tr>
+<tr>
+	<td>Bonus</td>
+	<td>:{{number_format($data->bonus, 2, ',', '.')}}</td>
+</tr>
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+
+</tr>
+
+<tr>
+	<td>Total</td>
+	<td>:{{number_format($data->gpk_tag+$data->gpk_cuci+$data->gpk_setrika+$data->gpk_packing+$data->gpk_qc+$data->bonus, 2, ',', '.')}}</td>
+</tr>
+
+</table>
 
 <span>---------------------------------------------------</span><br/>
 <span style="font-size:12px;">Pimpinan Glory Laundry</span><br/><br/>

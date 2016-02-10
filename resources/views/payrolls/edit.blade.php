@@ -12,20 +12,7 @@
         {!! Form::text('payroll_date',null,['id'=>'date-payroll', 'class'=>'form-control']) !!}
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="form-group">
-       {!! Form::label('depart', 'Bagian:') !!}
-       {!! Form::select('depart', [
-       'Tag' => 'Tag',
-       'Cuci' => 'Cuci',
-       'Setrika' => 'Setrika',
-       'Qc' => 'Qc',
-       'Packing' => 'Packing'
-       ],
-       null, ['class'=>'form-control']
-       ) !!}
-     </div>
-   </div>
+    
  </div>
  <div class="row">
   <div class="col-md-4">
@@ -51,10 +38,38 @@
 <div class="row">
   <div class="col-md-4">
     <div class="form-row">
-      <label for="c2">Gaji</label>
+      <label for="c2">Gaji Tag</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value='<?=$transaction_payroll->gpk?>'/>
+        <input type="number" name="gpk_tag" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="c2">Gaji Cuci</label>
+      <div class="input-group"> 
+        <span class="input-group-addon">Rp</span>
+        <input type="number" name="gpk_cuci" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="c2">Gaji Setrika</label>
+      <div class="input-group"> 
+        <span class="input-group-addon">Rp</span>
+        <input type="number" name="gpk_setrika" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="c2">Gaji Packing</label>
+      <div class="input-group"> 
+        <span class="input-group-addon">Rp</span>
+        <input type="number" name="gpk_packing" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+      </div>
+    </div>
+    <div class="form-row">
+      <label for="c2">Gaji QC</label>
+      <div class="input-group"> 
+        <span class="input-group-addon">Rp</span>
+        <input type="number" name="gpk_qc" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
       </div>
     </div>
   </div>
@@ -67,7 +82,7 @@
       </div>
     </div>
   </div>
-
+  <br/>
   <div class="col-md-4">
     <div class="form-group">
       {!! Form::label('description', 'Keterangan:') !!}
@@ -75,6 +90,7 @@
     </div>
   </div>
 </div>
+<br/>
 
 <div class="row">
   <div class="col-md-10">

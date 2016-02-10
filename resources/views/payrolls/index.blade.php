@@ -17,9 +17,6 @@
           <th>No</th>
           <th>Payroll Date</th>
           <th>Nama Pegawai</th>
-          <th>Bagian</th>
-          <th>Sallary</th>
-          <th>Bonus</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -39,9 +36,6 @@ $(document).ready(function() {
             { data: 'rownum', name: 'rownum',searchable: false},
             { data: 'payroll_date', name: 'transaction_payrolls.payroll_date' },
             { data: 'name', name: 'users.name' },
-            { data: 'depart', name: 'transaction_payrolls.depart' },
-            { data: 'gpk', name: 'transaction_payrolls.gpk' },
-            { data: 'bonus', name: 'transaction_payrolls.bonus' },
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
