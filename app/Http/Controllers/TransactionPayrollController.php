@@ -201,7 +201,7 @@ public function payroll_data()
 
         Session::flash('flash_message', 'Data berhasil diubah!');
 
-        return redirect()->back();
+        return redirect()->route('payroll.payroll');
     }
 
     /**

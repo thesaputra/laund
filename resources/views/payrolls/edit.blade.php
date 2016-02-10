@@ -41,35 +41,35 @@
       <label for="c2">Gaji Tag</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk_tag" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+        <input type="number" name="gpk_tag" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value="<?php echo $transaction_payroll->gpk_tag; ?>" />
       </div>
     </div>
     <div class="form-row">
       <label for="c2">Gaji Cuci</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk_cuci" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+        <input type="number" name="gpk_cuci" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value="<?php echo $transaction_payroll->gpk_cuci; ?>" />
       </div>
     </div>
     <div class="form-row">
       <label for="c2">Gaji Setrika</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk_setrika" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+        <input type="number" name="gpk_setrika" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value="<?php echo $transaction_payroll->gpk_setrika; ?>"/>
       </div>
     </div>
     <div class="form-row">
       <label for="c2">Gaji Packing</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk_packing" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+        <input type="number" name="gpk_packing" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value="<?php echo $transaction_payroll->gpk_packing; ?>"/>
       </div>
     </div>
     <div class="form-row">
       <label for="c2">Gaji QC</label>
       <div class="input-group"> 
         <span class="input-group-addon">Rp</span>
-        <input type="number" name="gpk_qc" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" />
+        <input type="number" name="gpk_qc" min="0" step="0.01" data-number-to-fixed="2" data-number-stepfactor="100" class="form-control currency" id="c2" value="<?php echo $transaction_payroll->gpk_qc; ?>"/>
       </div>
     </div>
   </div>
