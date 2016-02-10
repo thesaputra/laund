@@ -95,6 +95,8 @@ class ReportController extends Controller
 
   public function get_data_report($date_start,$date_end,$user_id,$task)
   {
+    // dd($task);
+    // die();
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
@@ -107,7 +109,8 @@ class ReportController extends Controller
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
     ->where('packages.unit','!=','Pcs')
-    ->where('packages.name','LIKE',$task)
+    ->where('packages.unit','!=','Mtr')
+    ->where('packages.name','LIKE','%'.$task.'%')
     ->where('transactions.deleted','=',0)
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
@@ -128,7 +131,7 @@ class ReportController extends Controller
              'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
     ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->where('transaction_pcs.status','=','Selesai')
-    ->where('transaction_pcs.package_detail','LIKE',$task)
+    ->where('transaction_pcs.package_detail','LIKE','%'.$task.'%')
     ->where('transaction_pcs.user_id','=',$user_id)
     ->where('transactions.deleted','=',0)
     ->get();
