@@ -293,6 +293,27 @@ Route::group(array('prefix' => 'payroll'),function() {
        'roles' => ['Admin', 'Owner']
    ]);
 
+  Route::get('payroll/detail_payroll/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.report',
+       'uses' => 'TransactionPayrollController@detail_payroll',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+   Route::post('payroll/store_payroll', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.store_payroll',
+       'uses' => 'TransactionPayrollController@store_payroll',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+   Route::delete('payroll/destroy_detail_payroll/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'payroll.destroy_detail_payroll',
+       'uses' => 'TransactionPayrollController@destroy_detail_payroll',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
   Route::get('report', [
       'middleware' => ['auth', 'roles'],
       'as' => 'payroll.report',

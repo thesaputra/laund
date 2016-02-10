@@ -19,6 +19,8 @@ use App\Models\TransactionPayroll;
 use App\Models\PaymentHistory;
 use App\Models\Customer;
 use App\Models\Status;
+use App\Models\PayrollDetail;
+
 
 use Yajra\Datatables\Datatables;
 
@@ -34,11 +36,11 @@ class TransactionPayrollController extends Controller
 
     public function report()
     {
-     return view('payrolls.report');
- }
+       return view('payrolls.report');
+   }
 
- public function process_report(Request $request)
- {
+   public function process_report(Request $request)
+   {
     $date_start = $this->saved_date_format($request->input('date_start'));
     $date_end = $this->saved_date_format($request->input('date_end'));
 
@@ -51,21 +53,21 @@ class TransactionPayrollController extends Controller
 }
 
 public function get_data_report($date_start,$date_end)
-  {
+{
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = TransactionPayroll::whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->join('users','transaction_payrolls.user_id','=','users.id')
-    ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+    ->select('transaction_payrolls.payroll_date','transaction_payrolls.description','users.name')
     ->whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->where('transaction_payrolls.deleted','=',0)
     ->get();
 
     return $results;
-  }
+}
 
 public function index()
 {
- return view('payrolls.index');
+   return view('payrolls.index');
 }
 
 public function payroll_data()
@@ -76,9 +78,8 @@ public function payroll_data()
     ->select([\DB::raw('@rownum  := @rownum  + 1 AS rownum'),
       'transaction_payrolls.id as tp_id',
       'transaction_payrolls.payroll_date',
-      'users.name',
-      'transaction_payrolls.bonus as bonus'
-
+      'users.name'
+     
       ])
     ->where('transaction_payrolls.deleted','=','0')
     ->orderBy('transaction_payrolls.payroll_date', 'desc');
@@ -89,13 +90,16 @@ public function payroll_data()
     })
     ->addColumn('action', function ($transaction_payrolls) {
       return
-      '<div class="col-md-3">
+      '<div class="col-md-1">
       <a href="./payroll/edit/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
+      <a href="./payroll/detail_payroll/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-pencil"></i> Detail Payroll</a>
+  </div>
+  <div class="col-md-5">
       <a href="./payroll/print_slip/'.$transaction_payrolls->tp_id.'" class="btn btn-xs btn-success"><i class="glyphicon glyphicon-print"></i> Print Slip</a>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-2">
     <form method="POST" action="./payroll/destroy/'.$transaction_payrolls->tp_id.'" accept-charset="UTF-8" class="inline">
       <input name="_method" type="hidden" value="PATCH">
       <input name="_token" type="hidden" value="'.csrf_token().'">
@@ -106,23 +110,60 @@ public function payroll_data()
 
 ';
 })
-    ->make(true);
+->make(true);
 }
 
 
-    public function print_slip($id)
-      {
-        $data = TransactionPayroll::where('transaction_payrolls.id', $id)
-            ->join('users','transaction_payrolls.user_id','=','users.id')
-            ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
-            ->where('transaction_payrolls.deleted','=',0)
-            ->first();
-       
-        $view =  \View::make('payrolls.print_slip', compact('data'))->render();
-        $pdf = \App::make('dompdf.wrapper');
-        $pdf->loadHTML($view);
-        return $pdf->stream('invoice');
-      }
+public function print_slip($id)
+{
+    $data = TransactionPayroll::where('transaction_payrolls.id', $id)
+    ->join('users','transaction_payrolls.user_id','=','users.id')
+    ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+    ->where('transaction_payrolls.deleted','=',0)
+    ->first();
+
+    $view =  \View::make('payrolls.print_slip', compact('data'))->render();
+    $pdf = \App::make('dompdf.wrapper');
+    $pdf->loadHTML($view);
+    return $pdf->stream('invoice');
+}
+
+public function detail_payroll($id)
+{
+    $transaction_payrolls = TransactionPayroll::where('transaction_payrolls.id', '=', $id)
+     ->join('users','users.id','=','transaction_payrolls.user_id')
+    ->select('transaction_payrolls.*','users.name','users.address')
+    ->firstOrFail();
+
+    
+    $list_detail = PayrollDetail::where('payroll_details.transaction_payroll_id','=', $id)
+    ->select('payroll_details.*')
+    ->paginate(25);
+   
+
+    return view('payrolls.detail_payroll',compact('list_detail','transaction_payrolls'));
+}
+
+
+public function store_payroll(Request $request)
+  {
+    $trans_item=$request->input();
+    $save_trans_item = PayrollDetail::create($trans_item);
+
+    return redirect()->back();
+  }
+
+    public function destroy_detail_payroll($id)
+  {
+      $transDetail = PayrollDetail::findOrFail($id);
+
+      $transDetail->delete();
+
+      Session::flash('flash_message', 'Data berhasil dihapus');
+
+      return redirect()->back();
+  }
+
 
 
     /**
