@@ -218,14 +218,14 @@ class ReportController extends Controller
   {
     $date_end = Carbon::parse($date_end)->addDays(1);
 
-    $results = PaymentHistory::whereBetween('payment_histories.created_at', [$date_start, $date_end])
+    $results = PaymentHistory::whereBetween('payment_histories.payment_date', [$date_start, $date_end])
     ->join('transactions','payment_histories.transaction_id','=','transactions.id')
     ->join('transaction_details','transaction_details.transaction_id','=','transaction_details.id')
     ->join('packages','transaction_details.package_id','=','packages.id')
     ->join('customers','transactions.customer_id','=','customers.id')
     ->join('status','transactions.status_id','=','status.id')
 
-    ->select('transaction_details.qty as jml_kg','packages.unit as unit_satuan','payment_histories.amount as amount_payment','payment_histories.description as desc_payment','payment_histories.created_at as created_at_payment', 'transactions.invoice_number','transactions.date_checkout','transactions.discount','status.name as status_trans','transactions.date_order',
+    ->select('transaction_details.qty as jml_kg','packages.unit as unit_satuan','payment_histories.amount as amount_payment','payment_histories.payment_date as date_hist_payment','payment_histories.description as desc_payment','payment_histories.created_at as created_at_payment', 'transactions.invoice_number','transactions.date_checkout','transactions.discount','status.name as status_trans','transactions.date_order',
              'payment_histories.description','customers.name as customer_name','customers.address as customer_address','transaction_details.package_type as tipe_paket','packages.price_regular as harga_regular','packages.price_express as harga_express'
 
 

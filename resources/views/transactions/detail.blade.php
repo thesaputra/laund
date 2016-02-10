@@ -214,7 +214,7 @@
                   @foreach ($data_transaction['payment_histories'] as $key=>$data)
                   <tr>
                     <td>{{ $key+1 }}</td>
-                    <td>{{ date('d/m/Y', strtotime($data->created_at))}}</td>
+                    <td>{{ date('d/m/Y', strtotime($data->payment_date))}}</td>
                     <td>{{ $data->description}}</td>
                     <td class="text-right">{{ number_format($data->amount, 2, ',', '.')}}</td>
                     <td>
@@ -261,6 +261,7 @@
                 <div class="row">
                   {!! Form::open(['route' => 'kasir.transaction.store_payment','class' =>'form-horizontal']) !!}
                   <div class="col-xs-12">
+                    {!! Form::text('payment_date',null,['id'=>'payment_date', 'class'=>'form-control','placeholder'=>'Tanggal','autocomplete'=>'off','required'=>'true']) !!}
                     {!! Form::text('description',null,['id'=>'description', 'class'=>'form-control','placeholder'=>'Keterangan Pembayaran','autocomplete'=>'off','required'=>'true']) !!}
                     {!! Form::hidden('transaction_id',$data_transaction['transaction']->id,['id'=>'transaction_id', 'class'=>'form-control']) !!}
                     {!! Form::text('amount',null,['id'=>'amount', 'class'=>'form-control','placeholder'=>'Jumlah Bayar','autocomplete'=>'off','required'=>'true']) !!}
@@ -297,6 +298,10 @@
 
       <script>
       $(document).ready(function() {
+        $('#payment_date').datepicker({
+    format: "dd/mm/yyyy",
+    language: "id"
+  });
         autocomplete_package();
 
         //   var val_left = $('#amount_left').val();

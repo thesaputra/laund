@@ -8,7 +8,7 @@ class PaymentHistory extends Model
 {
   protected $table = 'payment_histories';
   protected $primarykey = 'id';
-  protected $fillable = array('transaction_id','amount','description');
+  protected $fillable = array('transaction_id','amount','description','payment_date');
   protected $hidden = ['id', 'created_at', 'updated_at'];
 
   public function transaction()

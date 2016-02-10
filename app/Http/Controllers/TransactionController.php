@@ -205,6 +205,10 @@ class TransactionController extends Controller
 
   public function store_payment(Request $request)
   {
+    $payment_date = $this->saved_date_format($request->input('payment_date'));
+
+    $request->merge(array('payment_date' => $payment_date));
+
     $payment=$request->input();
     $save_payment = PaymentHistory::create($payment);
 

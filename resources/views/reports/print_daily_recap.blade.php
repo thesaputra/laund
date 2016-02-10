@@ -41,7 +41,7 @@ Apartement Jarrdin Cihampelas<br>
       <td>{{ $data->invoice_number}}</td>
       <td>{{ $data->customer_name.' / '.$data->customer_address}}</td>
       <td>{{ date('d/m/Y', strtotime($data->date_order)) }}</td>
-      <td>{{ date('d/m/Y', strtotime($data->created_at_payment)) }}</td>
+      <td>{{ date('d/m/Y', strtotime($data->date_hist_payment)) }}</td>
       <td>{{ ($data->date_checkout == '0000-00-00') ? '-' : date('d/m/Y', strtotime($data->date_checkout)) }}</td>
       <td>{{ $data->description}}</td>
       <td>
