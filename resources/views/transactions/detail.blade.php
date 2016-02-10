@@ -251,7 +251,14 @@
                         Sisa Bayar
                       </td>
                       <td class="text-right bg-danger">
-                        {{ number_format(ceiling(($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price) - $total_bayar - $data_transaction['transaction']->discount,100), 2, ',', '.') }}
+                      <?php 
+                        $aa = (ceiling(($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price) - $total_bayar - $data_transaction['transaction']->discount,100));
+                        if ($aa <= 100) {
+                          echo '0,00';
+                        } else {
+                          echo number_format((($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price) - $total_bayar - $data_transaction['transaction']->discount), 2, ',', '.');
+                        }
+                        ?>
                       </td>
                     </tr>
                   </tfoot>
