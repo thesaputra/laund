@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 use Session;
 use App\Models\Income;
 use App\Models\Outcome;
+use App\Models\OutcomeDetail;
+
 
 
 use Yajra\Datatables\Datatables;
@@ -58,13 +60,17 @@ public function get_data_report($date_start,$date_end)
 public function get_data_report_out($date_start,$date_end)
 {
     $date_end = Carbon::parse($date_end)->addDays(1);
-    $results = Outcome::whereBetween('outcomes.trans_date', [$date_start, $date_end])
-    ->select('outcomes.trans_date','outcomes.store_name','outcomes.type_trans','outcomes.store_tlp','outcomes.qty','outcomes.description','outcomes.price_income')
+    $results = OutcomeDetail::where('outcome_details.id', '!=',0)
+    ->join('outcomes','outcome_details.outcome_id','=','outcomes.id')
+   
+    ->select('outcome_details.*', 'outcomes.trans_date','outcomes.store_name','outcomes.type_trans','outcomes.store_tlp')
     ->whereBetween('outcomes.trans_date', [$date_start, $date_end])
     ->where('outcomes.deleted','=',0)
     ->get();
 
     return $results;
+
+
 }
 
 public function index()

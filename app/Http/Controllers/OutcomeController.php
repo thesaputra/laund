@@ -10,6 +10,8 @@ use App\Http\Controllers\Controller;
 
 use Session;
 use App\Models\Outcome;
+use App\Models\OutcomeDetail;
+
 
 
 use Yajra\Datatables\Datatables;
@@ -18,6 +20,26 @@ use Carbon\Carbon;
 
 class OutcomeController extends Controller
 {
+
+    public function store_outcome(Request $request)
+  {
+    $trans_item=$request->input();
+    $save_trans_item = OutcomeDetail::create($trans_item);
+
+    return redirect()->back();
+  }
+
+    public function destroy_detail_outcome($id)
+  {
+      $transDetail = OutcomeDetail::findOrFail($id);
+
+      $transDetail->delete();
+
+      Session::flash('flash_message', 'Data berhasil dihapus');
+
+      return redirect()->back();
+  }
+
     /**
      * Display a listing of the resource.
      *
@@ -36,10 +58,7 @@ class OutcomeController extends Controller
           'outcomes.id',
           'outcomes.trans_date',
           'outcomes.store_name',
-          'outcomes.type_trans',
-          'outcomes.description',
-          'outcomes.qty',
-          'outcomes.price_income'
+          'outcomes.store_tlp'
           ])
         ->where('outcomes.deleted','=','0')
         ->orderBy('outcomes.trans_date', 'desc');
@@ -50,9 +69,12 @@ class OutcomeController extends Controller
                 })
         ->addColumn('action', function ($outcome) {
           return
-            '<div class="col-md-3">
+            '<div class="col-md-1" style="margin-right:20px;">
             <a href="./outcome/edit/'.$outcome->id.'" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
             </div>
+            <div class="col-md-7">
+      <a href="./outcome/detail_outcome/'.$outcome->id.'" class="btn btn-xs btn-warning"><i class="glyphicon glyphicon-pencil"></i>Detail Pengeluaran</a>
+  </div>
             <div class="col-md-3">
             <form method="POST" action="./outcome/destroy/'.$outcome->id.'" accept-charset="UTF-8" class="inline">
               <input name="_method" type="hidden" value="PATCH">
@@ -65,6 +87,24 @@ class OutcomeController extends Controller
         })
         ->make(true);
      }
+
+    public function detail_outcome($id)
+    {
+        $detail_outcome = Outcome::where('outcomes.id', '=', $id)
+        ->select('outcomes.*')
+        ->first();
+
+        // dd($detail_outcome);
+        // die();
+
+        
+        $list_detail = OutcomeDetail::where('outcome_details.outcome_id','=', $id)
+        ->select('outcome_details.*')
+        ->paginate(25);
+       
+
+        return view('outcomes.detail_outcome',compact('list_detail','detail_outcome'));
+    }
 
     /**
      * Show the form for creating a new resource.

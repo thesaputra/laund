@@ -58,6 +58,8 @@ Apartement Jarrdin Cihampelas<br>
       <th>No</th>
       <th>Tanggal</th>
       <th>Keterangan</th>
+      <th>Qty</th>
+      <th>Harga</th>
       <th>Jumlah</th>
     </tr>
   </thead>
@@ -76,13 +78,17 @@ Apartement Jarrdin Cihampelas<br>
     <tr>
       <td>{{ $key+1 }}</td>
       <td>{{ date('d/m/Y', strtotime($data->trans_date)) }}</td>
-      <td>{{ $data->description}}</td>
-      <td>{{ number_format(($data->price_income),2, ',', '.')}}</td>
+      <td>{{ $data->desc_outcome}}</td>
+      <td>{{ $data->qty}}</td>
+      <td>{{ number_format(($data->price),2, ',', '.')}}</td>
+
+      <td>{{ number_format(($data->price*$data->qty),2, ',', '.')}}</td>
+
     </tr>
-    <?php $total2 += $data->price_income; ?>
+    <?php $total2 += ($data->price*$data->qty); ?>
     @endforeach
     <tr style="font-weight:bold">
-      <td colspan="3" align="right">
+      <td colspan="5" align="right">
         Total Pengeluaran:
       </td>
       <td>{{number_format(($total2),2, ',', '.') }}</td>

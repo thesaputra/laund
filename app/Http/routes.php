@@ -656,6 +656,27 @@ Route::group(array('prefix' => 'outcome'),function() {
       'roles' => ['Admin', 'Owner']
   ]);
 
+  Route::post('outcome/store_outcome', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.store_outcome',
+       'uses' => 'OutcomeController@store_outcome',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+   Route::delete('payroll/destroy_detail_outcome/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.destroy_detail_outcome',
+       'uses' => 'OutcomeController@destroy_detail_outcome',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
+  Route::get('outcome/detail_outcome/{id}', [
+       'middleware' => ['auth', 'roles'],
+       'as' => 'outcome.detail',
+       'uses' => 'OutcomeController@detail_outcome',
+       'roles' => ['Admin', 'Owner']
+   ]);
+
   Route::get('outcome/outcome_data', [
       'middleware' => ['auth', 'roles'],
       'as' => 'data.outcome',

@@ -16,10 +16,7 @@
           <th>No</th>
           <th>Tanggal</th>
           <th>Nama Toko</th>
-          <th>Jenis Transaksi</th>
-          <th>Nama Transaksi</th>
-          <th>Qty</th>
-          <th>Jumlah</th>
+          <th>Tlp Toko</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -39,10 +36,7 @@ $(document).ready(function() {
             {data: 'rownum', name: 'rownum',searchable: false},
             {data: 'trans_date', name: 'trans_date' },
             {data: 'store_name', name: 'store_name' },
-            {data: 'type_trans', name: 'type_trans' },
-            {data: 'description', name: 'description' },
-            {data: 'qty', name: 'qty' },
-            {data: 'price_income', name: 'price_income' },
+            {data: 'store_tlp', name: 'store_tlp' },
             {data: 'action', name: 'action', orderable: false, searchable: false}
         ]
     });
