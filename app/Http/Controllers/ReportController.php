@@ -98,6 +98,7 @@ class ReportController extends Controller
     // dd($task);
     // die();
     $date_end = Carbon::parse($date_end)->addDays(1);
+    if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
     ->join('packages','transaction_users.package_id','=','packages.id')
@@ -114,6 +115,25 @@ class ReportController extends Controller
     ->where('transactions.deleted','=',0)
     ->where('transaction_users.user_id','=',$user_id)
     ->get();
+    }
+    else {
+      $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
+    ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
+    ->join('packages','transaction_users.package_id','=','packages.id')
+    ->join('status','transactions.status_id','=','status.id')
+    ->join('users','transaction_users.user_id','=','users.id')
+    ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order','transaction_users.end_date as tgl_pengerjaan',
+             'transaction_users.qty','transaction_users.end_date','transaction_users.status',
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+    ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
+    ->where('transaction_users.status','=','Selesai')
+    ->where('packages.unit','!=','Pcs')
+    ->where('packages.unit','!=','Mtr')
+    ->where('packages.name','LIKE','%'.$task)
+    ->where('transactions.deleted','=',0)
+    ->where('transaction_users.user_id','=',$user_id)
+    ->get();
+    }
 
     return $results;
   }
@@ -121,6 +141,7 @@ class ReportController extends Controller
   public function get_data_report_pcs($date_start,$date_end,$user_id,$task)
   {
     $date_end = Carbon::parse($date_end)->addDays(1);
+    if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
     ->join('packages','transaction_pcs.package_id','=','packages.id')
@@ -135,6 +156,23 @@ class ReportController extends Controller
     ->where('transaction_pcs.user_id','=',$user_id)
     ->where('transactions.deleted','=',0)
     ->get();
+  }
+    else {
+      $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
+    ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
+    ->join('packages','transaction_pcs.package_id','=','packages.id')
+    ->join('status','transactions.status_id','=','status.id')
+    ->join('users','transaction_pcs.user_id','=','users.id')
+    ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order',
+             'transaction_pcs.qty','transaction_pcs.end_date','transaction_pcs.status','transaction_pcs.price','transaction_pcs.package_detail','transaction_pcs.end_date as tgl_pengerjaan',
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+    ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
+    ->where('transaction_pcs.status','=','Selesai')
+    ->where('transaction_pcs.package_detail','LIKE','%'.$task)
+    ->where('transaction_pcs.user_id','=',$user_id)
+    ->where('transactions.deleted','=',0)
+    ->get();
+    }
 
     return $results;
   }
