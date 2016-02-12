@@ -55,9 +55,10 @@ class TransactionPayrollController extends Controller
 public function get_data_report($date_start,$date_end)
 {
     $date_end = Carbon::parse($date_end)->addDays(1);
-    $results = TransactionPayroll::whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
+    $results = PayrollDetail::where('payroll_details.id', '!=',0)
+    ->join('transaction_payrolls','payroll_details.transaction_payroll_id','=','transaction_payrolls.id')
     ->join('users','transaction_payrolls.user_id','=','users.id')
-    ->join('payroll_details','payroll_details.transaction_payroll_id','=','payroll_details.id')
+    
     ->select('transaction_payrolls.payroll_date','transaction_payrolls.description','users.name','payroll_details.*')
     ->whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->where('transaction_payrolls.deleted','=',0)
