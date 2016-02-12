@@ -57,10 +57,12 @@ public function get_data_report($date_start,$date_end)
     $date_end = Carbon::parse($date_end)->addDays(1);
     $results = TransactionPayroll::whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->join('users','transaction_payrolls.user_id','=','users.id')
-    ->select('transaction_payrolls.payroll_date','transaction_payrolls.description','users.name')
+    ->join('payroll_details','payroll_details.transaction_payroll_id','=','payroll_details.id')
+    ->select('transaction_payrolls.payroll_date','transaction_payrolls.description','users.name','payroll_details.*')
     ->whereBetween('transaction_payrolls.payroll_date', [$date_start, $date_end])
     ->where('transaction_payrolls.deleted','=',0)
     ->get();
+
 
     return $results;
 }

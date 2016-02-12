@@ -17,40 +17,30 @@ Apartement Jarrdin Cihampelas<br>
       <th>No</th>
       <th>Payroll date</th>
       <th>Nama Pegawai</th>
-      <th>Bagian</th>
-      <th>Keterangan</th>
-      <th>Gaji</th>
-      <th>Bonus</th>
-      <th>Total</th>
+      <th>Pekerjaan</th>
+      <th>Jenis</th>
+      <th>Qty / Satuan</th>
+      <th>Upah</th>
     </tr>
   </thead>
   <tbody>
     <?php $total_gpk_bonus = 0;?>
-     <?php
-          if( !function_exists('ceiling') )
-          {
-              function ceiling($number, $significance = 1)
-              {
-                  return ( is_numeric($number) && is_numeric($significance) ) ? (ceil($number/$significance)*$significance) : false;
-              }
-          }
-          ?>
     @foreach ($data as $key=>$data)
     <tr>
       <td>{{ $key+1 }}</td>
       <td>{{ date('d/m/Y', strtotime($data->payroll_date)) }}</td>
       <td>{{ $data->name}}</td>
-      <td>{{ $data->depart}}</td>
-      <td>{{ $data->description}}</td>
-      <td>{{ number_format(($data->gpk),2, ',', '.')}}</td>
-      <td>{{ number_format(($data->bonus),2, ',', '.')}}</td>
-      <td>{{ number_format(($data->gpk + $data->bonus),2, ',', '.')}}</td>
+      <td>{{ $data->desc_payroll}}</td>
+      <td>{{ $data->jenis_satuan}}</td>
+      <td>{{ $data->qty}}&nbsp;/&nbsp;{{ $data->satuan}}</td>
+      
+      <td>{{ number_format(($data->amount),2, ',', '.')}}</td>
     </tr>
-    <?php $total_gpk_bonus += ($data->gpk + $data->bonus); ?>
+    <?php $total_gpk_bonus += ($data->amount); ?>
     @endforeach
     <tr style="font-weight:bold">
-      <td colspan="7" align="right">
-        Total Pengeluaran Gaji:
+      <td colspan="6" align="right">
+        Total:
       </td>
       <td>{{number_format(($total_gpk_bonus),2, ',', '.') }}</td>
     </tr>
