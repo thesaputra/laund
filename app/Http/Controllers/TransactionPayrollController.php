@@ -63,7 +63,7 @@ public function get_data_report($date_start,$date_end)
     ->where('transaction_payrolls.deleted','=',0)
     ->get();
 
-    dd($result);
+    dd($results);
     die();
 
     return $results;
