@@ -116,13 +116,17 @@ public function payroll_data()
 
 public function print_slip($id)
 {
-    $data = TransactionPayroll::where('transaction_payrolls.id', $id)
+    $data = PayrollDetail::where('payroll_details.transaction_payroll_id', $id)
+    ->join('transaction_payrolls','transaction_payrolls.id','=','payroll_details.transaction_payroll_id')
     ->join('users','transaction_payrolls.user_id','=','users.id')
-    ->select('transaction_payrolls.payroll_date','transaction_payrolls.gpk_tag','transaction_payrolls.gpk_cuci','transaction_payrolls.gpk_setrika','transaction_payrolls.gpk_packing','transaction_payrolls.gpk_qc','transaction_payrolls.bonus','transaction_payrolls.description','users.name')
+    ->select('transaction_payrolls.payroll_date','users.name','payroll_details.*')
     ->where('transaction_payrolls.deleted','=',0)
-    ->first();
+    ->get();
 
-    $view =  \View::make('payrolls.print_slip', compact('data'))->render();
+    $named = $data->first();
+
+
+    $view =  \View::make('payrolls.print_slip', compact('data','named'))->render();
     $pdf = \App::make('dompdf.wrapper');
     $pdf->loadHTML($view);
     return $pdf->stream('invoice');
