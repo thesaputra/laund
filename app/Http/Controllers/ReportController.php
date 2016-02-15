@@ -97,7 +97,7 @@ class ReportController extends Controller
   {
     // dd($task);
     // die();
-    $date_end = Carbon::parse($date_end)->addDays(1);
+    // $date_end = Carbon::parse($date_end)->addDays(1);
     if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
@@ -140,7 +140,7 @@ class ReportController extends Controller
 
   public function get_data_report_pcs($date_start,$date_end,$user_id,$task)
   {
-    $date_end = Carbon::parse($date_end)->addDays(1);
+    // $date_end = Carbon::parse($date_end)->addDays(1);
     if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
@@ -257,7 +257,9 @@ class ReportController extends Controller
 
   public function get_data_report_daily($date_start,$date_end)
   {
-    $date_end = Carbon::parse($date_end)->addDays(1);
+    // dd('aaa');
+    // die();
+    // $date_end = Carbon::parse($date_end)->addDays(1);
 
     $results = PaymentHistory::whereBetween('payment_histories.payment_date', [$date_start, $date_end])
     ->join('transactions','payment_histories.transaction_id','=','transactions.id')

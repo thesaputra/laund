@@ -50,7 +50,7 @@ Apartement Jarrdin Cihampelas<br>
     <?php $total_uang_masuk += $data->amount_payment; ?>
     @endforeach
     <tr style="font-weight:bold">
-      <td colspan="6" align="right">
+      <td colspan="7" align="right">
         Total Pemasukan:
       </td>
       <td>{{number_format(ceiling($total_uang_masuk,100),0, ',', '.')}}</td>
