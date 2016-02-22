@@ -176,7 +176,7 @@
               <tfoot>
                 <tr>
                   <td colspan="5" align="right">
-                    Total Bayar1
+                    Total Bayar
                   </td>
                   <td class="text-right bg-warning">
                     <?php 
