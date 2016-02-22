@@ -176,19 +176,28 @@
               <tfoot>
                 <tr>
                   <td colspan="5" align="right">
-                    Total Bayar
+                    Total Bayar1
                   </td>
                   <td class="text-right bg-warning">
                     <?php 
-                      $ce = $total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price;
+                      $ce = ($total_pcs_exp_price + $total_pcs_reg_price + $total_mtr_exp_price + $total_mtr_reg_price + $total_kg_reg_price + $total_kg_exp_price);
+                       // echo number_format(ceiling($ce), 2, ',', '.');
+                      // echo substr($ce,-2);
+                      if (substr($ce, -2) == 00) {
+                       echo number_format(ceiling($ce,-1), 2, ',', '.');
+                      }
+                       else
+                       {
+                         echo number_format(ceiling($ce,100), 2, ',', '.');
+                       }
                       // echo $ce;
-                      if (intval($ce) == 55800) {
-                        echo number_format(ceiling($ce-1), 2, ',', '.');
-                      }
-                      else 
-                      {
-                        echo number_format(ceiling($ce,100), 2, ',', '.');
-                      }
+                      // if (intval($ce) == 55800) {
+                      //   echo number_format(ceiling($ce-1), 2, ',', '.');
+                      // }
+                      // else 
+                      // {
+                      //   echo number_format(ceiling($ce,100), 2, ',', '.');
+                      // }
                     ?>
                       
                     <!-- {{ number_format( ceiling($ce,100), 2, ',', '.') }} -->
