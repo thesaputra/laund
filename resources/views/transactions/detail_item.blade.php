@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+<?php
+          if( !function_exists('ceiling') )
+          {
+              function ceiling($number, $significance = 1)
+              {
+                  return ( is_numeric($number) && is_numeric($significance) ) ? (ceil($number/$significance)*$significance) : false;
+              }
+          }
+          ?>
 <div class="row">
   <h3 class="page-header">Detail Transaksi <small>Rincian Pakaian</small></h3>
   <div class="col-md-8">
@@ -20,6 +29,10 @@
       <tr>
         <th>Nama Pelanggan:</th>
         <td colspan="3">{{$data_transaction['transaction']->name.' / '.$data_transaction['transaction']->phone.' / '.str_limit($data_transaction['transaction']->address, $limit = 20, $end = '...')}}</td>
+      </tr>
+      <tr>
+        <th>Total QTY / Tipe Paket:</th>
+        <td colspan="3">{{$data_transaction['total_qtys']}} / {{ ($data_transaction['type_paket'] == 1 ) ? 'Reguler' : 'Express' }}</td>
       </tr>
     </table>
   </div>
@@ -70,6 +83,8 @@
         @endforeach
       </tbody>
     </table>
+
+            
     <div class="col-md-4">
       <a href="{{route('kasir.transaction.detail',$data_transaction['transaction']->id)}}" class="btn btn-info"/>Back</a>
       <a class="btn btn-danger" href="{{ Route('kasir.transaction.print_item',$data_transaction['transaction']->id) }}" role="button">PRINT Rincian Pakaian</a>

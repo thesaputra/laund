@@ -46,7 +46,8 @@ class TransactionController extends Controller
       'transactions.rack_info',
       'customers.name as cust_name',
       'customers.address as cust_address',
-      'customers.phone as cust_phone'
+      'customers.phone as cust_phone',
+      'transactions.deleted as delete_trans'
       ])
     ->where('transactions.deleted','=','0')
     ->orderBy('transactions.date_order', 'desc');
@@ -250,6 +251,20 @@ class TransactionController extends Controller
     ->select('transactions.*', 'customers.name', 'customers.address', 'customers.phone','customers.membership','users.name as username')
     ->firstOrFail();
 
+    $list_detail = TransactionDetail::where('transaction_details.transaction_id','=', $id)
+    ->join('packages','transaction_details.package_id','=','packages.id')
+    ->select('transaction_details.*','transaction_details.id as detail_id','packages.*')
+    ->paginate(25);
+
+    // dd($list_detail);
+    // die();
+    $total_qtys = 0;
+    $type_paket = '';
+    foreach ($list_detail as $value) {
+       $total_qtys += $value['qty'];
+       $type_paket = $value['package_type'];
+    }
+
     $list_item = TransactionItem::where('transaction_items.transaction_id','=', $id)
     ->join('items','transaction_items.item_id','=','items.id')
     ->select('transaction_items.*','transaction_items.id as trans_item_id','items.*')
@@ -257,7 +272,10 @@ class TransactionController extends Controller
 
     $data_transaction = array(
       'transaction'  => $transaction,
-      'item_transaction' => $list_item
+      'detail_transaction'   => $list_detail,
+      'item_transaction' => $list_item,
+      'total_qtys' => $total_qtys,
+      'type_paket' => $type_paket
     );
 
     return view('transactions.detail_item',compact('data_transaction'));
@@ -567,9 +585,24 @@ class TransactionController extends Controller
   {
     $data = $this->get_data_detail_item($id);
 
+
+    $list_detail = TransactionDetail::where('transaction_details.transaction_id','=', $id)
+    ->join('packages','transaction_details.package_id','=','packages.id')
+    ->select('transaction_details.*','transaction_details.id as detail_id','packages.*')
+    ->paginate(25);
+
+    // dd($list_detail);
+    // die();
+    $total_qtys = 0;
+    $type_paket = '';
+    foreach ($list_detail as $value) {
+       $total_qtys += $value['qty'];
+       $type_paket = $value['package_type'];
+    }
+
     $date = $data['transaction']['date_order'];
     $invoice = $data['transaction']['invoice_number'];
-    $view =  \View::make('transactions.print_items', compact('data', 'date', 'invoice'))->render();
+    $view =  \View::make('transactions.print_items', compact('data', 'date', 'invoice','total_qtys','type_paket'))->render();
     $pdf = \App::make('dompdf.wrapper');
     $pdf->loadHTML($view);
     return $pdf->stream('invoice');
