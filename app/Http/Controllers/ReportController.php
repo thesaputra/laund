@@ -74,16 +74,19 @@ class ReportController extends Controller
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
 
+
       // $view =  \View::make('reports.print_sallary_report', compact('data','date_start','date_end','user_name'))->render();
-      return view('reports.print_sallary_report', compact('data','date_start','date_end','user_name'));
+      return view('reports.print_sallary_report', compact('data','date_start','date_end','user_name','task'));
 
     } else {
       $data = $this->get_data_report_pcs($date_start,$date_end,$user_id,$task);
       $date_start = $request->input('date_start');
       $date_end = $request->input('date_end');
+      // dd($user_id);
+      // die(); 
 
       // $view =  \View::make('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'))->render();
-      return view('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name'));
+      return view('reports.print_sallary_report_pcs', compact('data','date_start','date_end','user_name','task'));
 
     }
 

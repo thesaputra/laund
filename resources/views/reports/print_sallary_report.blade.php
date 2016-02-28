@@ -9,7 +9,7 @@ Apartement Jarrdin Cihampelas<br>
 <div style="text-align:center;">
 <span style="font-size:15px; font-weight:bold;">Laporan Gaji Karyawan</span><br/>
 <span style="font-size:12px;">Periode: {{$date_start}} - {{$date_end}}</span><br/>
-<span style="font-size:12px;">Nama: {{$user_name}}</span><br/>
+<span style="font-size:12px;">Nama: {{$user_name}} | {{$task}}</span><br/>
 <br/>
 </div>
 <table style="font-size:12px; border: 1px solid gray; text-align:center;" width="100%">
