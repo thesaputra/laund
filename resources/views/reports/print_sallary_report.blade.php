@@ -31,7 +31,7 @@ Apartement Jarrdin Cihampelas<br>
     <tr>
       <td>{{ $key+1 }}</td>
       <td>{{ $data->invoice_number}}</td>
-      <td>{{ date('d/m/Y H:m', strtotime($data->tgl_pengerjaan)) }}</td>
+      <td>{{ date('d/m/Y H:i', strtotime($data->tgl_pengerjaan)) }}</td>
       <td>{{ $data->status_trans}}/{{ $data->status }}</td>
       <td>{{ $data->package_name}}</td>
       <td>{{ $data->qty }}/{{ $data->unit }}</td>
