@@ -146,7 +146,7 @@ class ReportController extends Controller
 
   public function get_data_report_pcs($date_start,$date_end,$user_id,$task)
   {
-    // $date_end = Carbon::parse($date_end)->addDays(1);
+    $date_end = Carbon::parse($date_end)->addDays(1);
     if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
