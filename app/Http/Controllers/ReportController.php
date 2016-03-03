@@ -103,7 +103,7 @@ class ReportController extends Controller
   {
     // dd($task);
     // die();
-    // $date_end = Carbon::parse($date_end)->addDays(1);
+    $date_end = Carbon::parse($date_end)->addDays(1);
     if ($task == 'Cuci' || $task == 'Setrika') {
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
