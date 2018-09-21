@@ -20,7 +20,7 @@ Hp: 0857 9444 0447
 <span style="font-size:13px" class="span-header">Selesai: {{ date('d-m-Y', strtotime($data['transaction']->date_deliver))}}</span><br/>
 <span style="font-size:13px" class="span-header">Nama: {{strtoupper($data['transaction']->name.' / '.$data['transaction']->address)}}</span><br/>
 <br/>
-<table style="font-size:13px" width="36%">
+<table style="font-size:13px" width="30%">
 <thead>
 <tr>
   <th align="left">Layanan</th>
@@ -50,7 +50,7 @@ Hp: 0857 9444 0447
 </tbody>
 </table>
 <span>---------------------------------------------------</span>
-<table style="font-size:12px" width="34%">
+<table style="font-size:12px" width="20%">
 <tbody>
   <tr>
     <td colspan="2"></td>
@@ -84,9 +84,11 @@ Hp: 0857 9444 0447
 <br/>
 <span style="font-size:10px">Glory Laundry - Laundry Management<span>
 <style>
-*{margin:7;padding:0}
+*{margin-left:7px; margin-right:7px;padding:0}
 body {
   top: 0px;
+  right: 0px;
+  width: 100%;
 }
 address {
   display: block;
