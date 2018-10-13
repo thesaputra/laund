@@ -50,7 +50,7 @@ Hp: 0857 9444 0447
 <br/>
 <span style="font-size:10px">Glory Laundry - Laundry Management<span>
 <style>
-*{margin-left:7px; margin-right:7px;padding:0}
+*{margin-left:10px; margin-right:7px;padding:0}
 body {
   top: 0px;
   right: 0px;
@@ -60,5 +60,8 @@ address {
   display: block;
   font-style: normal;
   font-size: 11px;
+}
+.span-header {
+  font-size: 13px;
 }
 </style>
