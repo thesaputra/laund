@@ -15,7 +15,7 @@ Hp: 0857 9444 0447
 
 
 <br/>
-<table style="font-size:12px" width="26%">
+<table style="font-size:12px" width="35%">
 <thead>
 <tr>
   <th align="left">Items</th>
