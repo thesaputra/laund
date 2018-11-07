@@ -58,15 +58,19 @@
 <span style="font-size:12px;">Pimpinan Glory Laundry</span><br/><br/>
 <span>_______________</span>
 
-
 <style>
-	*{margin:0;padding:0}
-	body {
-		top: 0px;
-	}
-	address {
-		display: block;
-		font-style: normal;
-		font-size: 11px;
-	}
+*{margin-left:7px; margin-right:7px;padding:0}
+body {
+  top: 0px;
+  right: 0px;
+  width: 100%;
+}
+address {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+}
+.span-header {
+  font-size: 13px;
+}
 </style>
