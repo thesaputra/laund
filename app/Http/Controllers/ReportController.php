@@ -38,6 +38,48 @@ class ReportController extends Controller
     return view('reports.status');
   }
 
+  public function status_pending()
+  {
+    return view('reports.status_pending');
+  }
+
+  public function post_status_pending(Request $request)
+  {
+    $date_start = $this->saved_date_format($request->input('date_start'));
+    $date_end = $this->saved_date_format($request->input('date_end'));
+
+    $data = $this->get_data_report_status_pending($date_start,$date_end);
+    // dd($data);
+    // die();
+    $date_start = $request->input('date_start');
+    $date_end = $request->input('date_end');
+
+    $view =  \View::make('reports.post_status_pending', compact('data','date_start','date_end'))->render();
+
+    return view('reports.post_status_pending', compact('data','date_start','date_end'));
+  }
+
+  public function status_ambil()
+  {
+    return view('reports.status_ambil');
+  }
+
+  public function post_status_ambil(Request $request)
+  {
+    $date_start = $this->saved_date_format($request->input('date_start'));
+    $date_end = $this->saved_date_format($request->input('date_end'));
+
+    $data = $this->get_data_report_ambil($date_start,$date_end);
+    // dd($data);
+    // die();
+    $date_start = $request->input('date_start');
+    $date_end = $request->input('date_end');
+
+    $view =  \View::make('reports.post_status_ambil', compact('data','date_start','date_end'))->render();
+
+    return view('reports.post_status_ambil', compact('data','date_start','date_end'));
+  }
+
   public function process_status(Request $request)
   {
     $date_start = $this->saved_date_format($request->input('date_start'));
@@ -261,6 +303,64 @@ class ReportController extends Controller
     return $results;
   }
 
+  public function get_data_report_status_pending($date_start,$date_end)
+  {
+    // $date_end = Carbon::parse($date_end)->addDays(1);
+    $results = \DB::select(\DB::raw("select transactions.date_order as trans_date_order, transactions.invoice_number as trans_invoice, customers.name as cust_name, customers.phone as cust_phone,customers.address as cust_address,
+                               transaction_details.package_type as trans_detail_type, transactions.id as trans_id, transactions.amount_left as trans_amount_total,
+                              (SELECT
+
+                             sum(transaction_details.qty)
+                                from transaction_details
+                                LEFT JOIN packages ON
+                                packages.id = transaction_details.package_id
+                                where transaction_details.transaction_id = trans_id AND packages.unit = 'Kg'
+                              ) as jml_kg,
+
+                              (SELECT
+
+                             sum(transaction_details.qty)
+                                from transaction_details
+                                LEFT JOIN packages ON
+                                packages.id = transaction_details.package_id
+                                where  transaction_details.transaction_id = trans_id AND packages.unit = 'Pcs'
+                              ) as jml_pcs,
+
+
+                              (SELECT
+
+                             sum(transaction_details.qty)
+                                from transaction_details
+                                LEFT JOIN packages ON
+                                packages.id = transaction_details.package_id
+                                where transaction_details.transaction_id = trans_id AND packages.unit = 'Mtr'
+                              ) as jml_mtr,
+
+                              (SELECT
+
+                             sum(payment_histories.amount)
+                                from payment_histories
+                                LEFT JOIN transactions ON
+                                payment_histories.transaction_id = transactions.id
+                                where payment_histories.transaction_id = trans_id
+                              ) as sudah_bayar
+
+                     FROM transactions
+                     LEFT JOIN transaction_details ON
+                     transaction_details.transaction_id = transactions.id
+                     LEFT JOIN packages ON
+                     packages.id = transaction_details.package_id
+                     LEFT JOIN customers on transactions.customer_id = customers.id
+
+                     WHERE transactions.date_order BETWEEN '$date_start' AND '$date_end'
+                     AND transactions.deleted = 0
+                     group by transactions.id
+                      "));
+
+
+    return $results;
+  }
+
   public function get_data_report_daily($date_start,$date_end)
   {
     // dd('aaa');
@@ -280,6 +380,29 @@ class ReportController extends Controller
 
              )
     ->where('transactions.deleted','=',0)
+    ->get();
+
+    return $results;
+  }
+
+  public function get_data_report_ambil($date_start,$date_end)
+  {
+    // dd('aaa');
+    // die();
+    // $date_end = Carbon::parse($date_end)->addDays(1);
+
+    $results = Transaction::whereBetween('transactions.date_order', [$date_start, $date_end])
+    ->join('transaction_details','transaction_details.transaction_id','=','transaction_details.id')
+    ->join('packages','transaction_details.package_id','=','packages.id')
+    ->join('customers','transactions.customer_id','=','customers.id')
+    ->join('status','transactions.status_id','=','status.id')
+
+    ->select('transaction_details.qty as jml_kg','packages.unit as unit_satuan','transactions.id','transactions.invoice_number','transactions.date_checkout','transactions.discount','status.name as status_trans','transactions.date_order','customers.phone as customer_phone', 'customers.name as customer_name','customers.address as customer_address','transaction_details.package_type as tipe_paket','packages.price_regular as harga_regular','packages.price_express as harga_express'
+
+
+             )
+    ->where('transactions.deleted','=',0)
+    // ->where('transactions.date_checkout')
     ->get();
 
     return $results;

@@ -85,6 +85,30 @@ Route::group(array('prefix' => 'admin'),function() {
       'uses' => 'ReportController@status',
       'roles' => ['Admin', 'Owner']
   ]);
+  Route::get('report/status_pending', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'admin.report.status_pending',
+      'uses' => 'ReportController@status_pending',
+      'roles' => ['Admin', 'Owner']
+  ]);
+  Route::post('report/post_status_pending', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'admin.report.post_status_pending',
+      'uses' => 'ReportController@post_status_pending',
+      'roles' => ['Admin', 'Owner']
+  ]);
+ Route::get('report/status_ambil', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'admin.report.status_ambil',
+      'uses' => 'ReportController@status_ambil',
+      'roles' => ['Admin', 'Owner']
+  ]);
+  Route::post('report/post_status_ambil', [
+      'middleware' => ['auth', 'roles'],
+      'as' => 'admin.report.post_status_ambil',
+      'uses' => 'ReportController@post_status_ambil',
+      'roles' => ['Admin', 'Owner']
+  ]);
   Route::get('report/daily', [
       'middleware' => ['auth', 'roles'],
       'as' => 'admin.report.daily',

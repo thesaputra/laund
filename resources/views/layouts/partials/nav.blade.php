@@ -42,6 +42,8 @@
                     <ul class="dropdown-menu">
                         <li class="{{ (Request::is('kasir/transaction') ? 'active' : '') }}"><a href="{!! route('kasir.transaction') !!}"><i class="fa fa-book"></i>Transaksi Pelanggan</a></li>
                         <li><a href="{!! route('admin.report.daily') !!}"><i class="fa fa-book"></i>Laporan Transaksi Uang Masuk Periode</a></li>
+                         <li><a href="{!! route('admin.report.status_pending') !!}" class="bg-danger"><i class="fa fa-book"></i>Laporan Pelanggan Belum Bayar</a></li>
+                          <li><a href="{!! route('admin.report.status_ambil') !!}" class="bg-warning"><i class="fa fa-book"></i>Laporan Pelanggan Sudah/Belum Ambil</a></li>
                         <li><a href="{!! route('admin.report.status') !!}"><i class="fa fa-book"></i>Laporan Status Transaksi Periode</a></li>
                          @if (Auth::user()->role_id != 2)
                           <li><a href="{!! route('admin.report.index') !!}"><i class="fa fa-book"></i>Laporan Operasional Laundry</a></li>
