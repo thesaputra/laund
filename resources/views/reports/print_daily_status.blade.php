@@ -73,7 +73,7 @@ Apartement Jarrdin Cihampelas<br>
       @endforeach
     </tbody>
     <tr style="font-weight:bold">
-      <td colspan="4" align="right">
+      <td colspan="5" align="right">
         Total:
       </td>
       <td>{{$total_kg}}</td>
