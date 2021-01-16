@@ -48,7 +48,7 @@ Apartement Jarrdin Cihampelas<br>
     ?>
     @endforeach
     <tr style="font-weight:bold">
-      <td colspan="5">
+      <td colspan="7">
         SubTotal
       </td>
       <td>

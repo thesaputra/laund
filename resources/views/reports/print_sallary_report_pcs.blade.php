@@ -17,6 +17,8 @@ Apartement Jarrdin Cihampelas<br>
     <tr>
       <th>No</th>
       <th>Invoice</th>
+      <th>Info Customer</th>
+      <th>Tgl Order / Selesai</th>
       <th>Tgl Selesai Pengerjaan</th>
       <th>Status</th>
       <th>Layanan</th>
@@ -31,6 +33,8 @@ Apartement Jarrdin Cihampelas<br>
     <tr>
       <td>{{ $key+1 }}</td>
       <td>{{ $data->invoice_number}}</td>
+       <td>{{ $data->cust_name }}-{{$data->cust_address}}</td>
+      <td>{{ date('d/m/Y', strtotime($data->trans_date_order)) }}-{{date('d/m/Y', strtotime($data->trans_date_deliver))}}</td>
       <td>{{ date('d/m/Y H:i', strtotime($data->tgl_pengerjaan)) }}</td>
       <td>{{ $data->status_trans}}/{{ $data->status }}</td>
       <td>{{ $data->package_name}}</td>
@@ -43,7 +47,7 @@ Apartement Jarrdin Cihampelas<br>
     ?>
     @endforeach
     <tr style="font-weight:bold">
-      <td colspan="6">
+      <td colspan="8">
         Total
       </td>
       <td>
