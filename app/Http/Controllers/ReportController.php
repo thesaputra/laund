@@ -149,12 +149,13 @@ class ReportController extends Controller
     if ($task == 'Cuci' || $task == 'Setrika') {
     $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
+    ->join('customers','transactions.customer_id','=','customers.id')
     ->join('packages','transaction_users.package_id','=','packages.id')
     ->join('status','transactions.status_id','=','status.id')
     ->join('users','transaction_users.user_id','=','users.id')
     ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order','transaction_users.end_date as tgl_pengerjaan',
              'transaction_users.qty','transaction_users.end_date','transaction_users.status',
-             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name','customers.name as cust_name','customers.address as cust_address','transactions.date_order as trans_date_order','transactions.date_deliver as trans_date_deliver')
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
     ->where('packages.unit','!=','Pcs')
@@ -167,12 +168,13 @@ class ReportController extends Controller
     else {
       $results = Transaction::whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->join('transaction_users','transaction_users.transaction_id','=','transactions.id')
+    ->join('customers','transactions.customer_id','=','customers.id')
     ->join('packages','transaction_users.package_id','=','packages.id')
     ->join('status','transactions.status_id','=','status.id')
     ->join('users','transaction_users.user_id','=','users.id')
     ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order','transaction_users.end_date as tgl_pengerjaan',
              'transaction_users.qty','transaction_users.end_date','transaction_users.status',
-             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name','customers.name as cust_name','customers.address as cust_address','transactions.date_order as trans_date_order','transactions.date_deliver as trans_date_deliver')
     ->whereBetween('transaction_users.end_date', [$date_start, $date_end])
     ->where('transaction_users.status','=','Selesai')
     ->where('packages.unit','!=','Pcs')
@@ -192,12 +194,13 @@ class ReportController extends Controller
     if ($task == 'Cuci') {
     $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
+    ->join('customers','transactions.customer_id','=','customers.id')
     ->join('packages','transaction_pcs.package_id','=','packages.id')
     ->join('status','transactions.status_id','=','status.id')
     ->join('users','transaction_pcs.user_id','=','users.id')
     ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order',
              'transaction_pcs.qty','transaction_pcs.end_date','transaction_pcs.status','transaction_pcs.price','transaction_pcs.package_detail','transaction_pcs.end_date as tgl_pengerjaan',
-             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name','customers.name as cust_name','customers.address as cust_address','transactions.date_order as trans_date_order','transactions.date_deliver as trans_date_deliver')
     ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->where('transaction_pcs.status','=','Selesai')
     ->where('transaction_pcs.package_detail','LIKE','%'.$task.'%')
@@ -208,12 +211,13 @@ class ReportController extends Controller
     else {
       $results = Transaction::whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->join('transaction_pcs','transaction_pcs.transaction_id','=','transactions.id')
+    ->join('customers','transactions.customer_id','=','customers.id')
     ->join('packages','transaction_pcs.package_id','=','packages.id')
     ->join('status','transactions.status_id','=','status.id')
     ->join('users','transaction_pcs.user_id','=','users.id')
     ->select('transactions.invoice_number','status.name as status_trans','transactions.date_order',
              'transaction_pcs.qty','transaction_pcs.end_date','transaction_pcs.status','transaction_pcs.price','transaction_pcs.package_detail','transaction_pcs.end_date as tgl_pengerjaan',
-             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name')
+             'packages.name as package_name','packages.price_opr','packages.price_regular','packages.price_express','packages.unit','users.name as user_name','customers.name as cust_name','customers.address as cust_address','transactions.date_order as trans_date_order','transactions.date_deliver as trans_date_deliver')
     ->whereBetween('transaction_pcs.end_date', [$date_start, $date_end])
     ->where('transaction_pcs.status','=','Selesai')
     ->where('transaction_pcs.package_detail','LIKE','%'.$task)
@@ -248,7 +252,7 @@ class ReportController extends Controller
   public function get_data_report_status($date_start,$date_end)
   {
     // $date_end = Carbon::parse($date_end)->addDays(1);
-    $results = \DB::select(\DB::raw("select transactions.date_order as trans_date_order, transactions.invoice_number as trans_invoice, customers.name as cust_name,customers.address as cust_address,
+    $results = \DB::select(\DB::raw("select transactions.date_order as trans_date_order,transactions.date_deliver as trans_date_deliver, transactions.time_deliver as trans_time_deliver, transactions.invoice_number as trans_invoice, customers.name as cust_name,customers.address as cust_address,
                                transaction_details.package_type as trans_detail_type, transactions.id as trans_id, transactions.amount_left as trans_amount_total,
                               (SELECT
 

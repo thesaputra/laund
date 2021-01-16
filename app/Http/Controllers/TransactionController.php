@@ -254,7 +254,7 @@ class TransactionController extends Controller
     $list_detail = TransactionDetail::where('transaction_details.transaction_id','=', $id)
     ->join('packages','transaction_details.package_id','=','packages.id')
     ->select('transaction_details.*','transaction_details.id as detail_id','packages.*')
-    ->paginate(25);
+    ->paginate(50);
 
     // dd($list_detail);
     // die();
@@ -589,7 +589,7 @@ class TransactionController extends Controller
     $list_detail = TransactionDetail::where('transaction_details.transaction_id','=', $id)
     ->join('packages','transaction_details.package_id','=','packages.id')
     ->select('transaction_details.*','transaction_details.id as detail_id','packages.*')
-    ->paginate(25);
+    ->paginate(50);
 
     // dd($list_detail);
     // die();

@@ -34,11 +34,13 @@ Apartement Jarrdin Cihampelas<br>
         <th>Invoice</th>
         <th>Nama/Alamat</th>
         <th>Tgl Order</th>
+        <th>Tgl Selesai</th>
         <th>KG</th>
         <th>Mtr</th>
         <th>PCS</th>
         <th>Sudah Bayar</th>
         <th>Sisa Bayar</th>
+
       </tr>
         </thead>
         <tbody>
@@ -48,6 +50,7 @@ Apartement Jarrdin Cihampelas<br>
         <td>{{ $data->trans_invoice}}</td>
         <td>{{ $data->cust_name.' / '.$data->cust_address}}</td>
         <td>{{ date('d/m/Y', strtotime($data->trans_date_order)) }}</td>
+        <td>{{ date('d/m/Y', strtotime($data->trans_date_deliver)) }} {{$data->trans_time_deliver}}</td>
         <td>{{ ($data->jml_kg == '') ? '0':$data->jml_kg }}</td>
         <td>{{ ($data->jml_mtr == '') ? '0':$data->jml_mtr }}</td>
         <td>{{ ($data->jml_pcs == '') ? '0':$data->jml_pcs }}</td>
